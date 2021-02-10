@@ -17,7 +17,6 @@ Contact: pp535@drexel.edu
 
 Introduction: 
 
-
 Input: 
 VCF files/ MAF files. 
 
