@@ -6,7 +6,7 @@ Mutational signature analysis is very active and important area of interest. The
 Because of the variation in the results from these different packages it is valuable to survey them 
 
 Results: 
-We created this package *MetaMutationalSigs* to facilitate comprehensive mutational signature analysis by creating a wrapper for different packages and providing a standard format for their outputs so that they can be effectively compared. We also create standard visualizations for the results of all packages to ensure easy analysis. Our software is easy to install and use through Docker ,a package manager that automates the dependencies. 
+We created this package *MetaMutationalSigs* to facilitate comprehensive mutational signature analysis by creating a wrapper for different packages and providing a standard format for their outputs so that they can be effectively compared. We have also standardized the input formats accepted by various packages so ease interoperability. We also create standard visualizations for the results of all packages to ensure easy analysis. Our software is easy to install and use through Docker ,a package manager that automates the dependencies. 
 
 
 
@@ -19,13 +19,11 @@ Introduction:
 
 
 Input: 
-VCF files. One per sample. 
-
-
+VCF files/ MAF files. 
 
 Commands:
-Run all packages and save the resulting data and visualizations in the output_dir directory    `` Rscript meta_sig_main.R ./output_dir`` 
+Use MAF file as input and save the resulting data and visualizations in the output_dir directory    `` Rscript meta_sig_main.R input_data.maf hg19 ./output_dir`` 
 
-Use hg38 reference genome. Default is hg19. `` Rscript meta_sig_main.R ./output_dir hg38`` 
+Use VCF files as input and save the resulting data and visualizations in the output_dir directory    `` Rscript input_vcf_dir/ input_data.maf hg19 ./output_dir`` 
 
-install.packages("deconstructSigs-master/", repos = NULL, type="source")
+Use hg38 reference genome. Default is hg19. `` Rscript input_vcf_dir/ input_data.maf hg38 ./output_dir`` 

@@ -52,8 +52,6 @@ library(MutationalPatterns)
 library(deconstructSigs)
 library(sigfit)
 library(sigminer)
-library(reticulate)
-
 data("cosmic_signatures_v2")
 data("cosmic_signatures_v3")
 load("data/signatures.exome.cosmic.v3.may2019.rda")
@@ -256,6 +254,7 @@ runDeconstructSigs = function(ref_genome = "BSgenome.Hsapiens.UCSC.hg19",
         signatures.cosmic
       ))
   #### SBS
+#   v3_input_matrices_list <- lapply(snp_files_list, vcf.to.sigs.input)
 	v3_input_matrices_list <- v2_input_matrices_list
 
   v3_signatures_list <-
@@ -415,7 +414,4 @@ runSigfit(mut_mat = data_matrix, out_dir = output_dir)
 runDeconstructSigs(mut_mat = data_matrix, out_dir = output_dir)
 runSigflow(mut_mat = data_matrix, out_dir = output_dir)
 
-use_condaenv("base")
-py_call( "errors_pie_heatmap.py " , output_dir)
-
-system(paste( "python errors_pie_heatmap.py "  ,output_dir) )
+# system(paste("python error_pie_heatmap.py " , output_dir))
