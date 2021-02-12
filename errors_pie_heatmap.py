@@ -72,7 +72,7 @@ for i in legacy_error_list:
 	
 legacy_rmse_df = pd.DataFrame(legacy_rmse_list, index=legacy_rmse_name_list)
 legacy_rmse_df.columns = ["RMSE"]
-
+legacy_rmse_df["toolname"] = legacy_rmse_name_list
 legacy_rmse_df.to_csv(r_output_file_dir + "/legacy_rmse_data.csv")
 sbs_rmse_list = []
 for i in sbs_error_list:
@@ -83,35 +83,26 @@ for i in sbs_error_list:
 sbs_rmse_df = pd.DataFrame(sbs_rmse_list, index=sbs_rmse_name_list)        
 sbs_rmse_df.columns = ["RMSE"]
 sbs_rmse_df.sort_values(by= ["RMSE"])
+sbs_rmse_df["toolname"] = sbs_rmse_name_list
 sbs_rmse_df.to_csv(r_output_file_dir + "/sbs_rmse_data.csv")
 
-fig = plt.figure(figsize=(30,10))
-ax = fig.add_axes([0,0,1,1])
-ax.bar(legacy_rmse_name_list, legacy_rmse_list)
-plt.ylabel("RMSE of reconstruction error")
-plt.savefig(r_output_file_dir + "/legacy_rmse_bar_plot.png", bbox_inches='tight')
+fig = px.bar(legacy_rmse_df, x= "toolname" , y='RMSE', title="RMSE of reconstruction error using COSMIC legacy signatures")
+fig.write_image(r_output_file_dir +"/legacy_rmse_bar_plot.pdf")
 
-
-
-fig = plt.figure(figsize=(30,10))
-ax = fig.add_axes([0,0,1,1])
-ax.bar(sbs_rmse_name_list, sbs_rmse_list)
-plt.ylabel("RMSE of reconstruction error")
-plt.savefig(r_output_file_dir + "/sbs_rmse_bar_plot.png", bbox_inches='tight')
-
-
+fig = px.bar(sbs_rmse_df, x="toolname", y='RMSE', title="RMSE of reconstruction error using COSMIC SBS signatures")
+fig.write_image(r_output_file_dir + "/sbs_rmse_bar_plot.pdf")
 
 artefacts_cosmic_sigs = ["COSMIC_1", "COSMIC_5", "COSMIC_12"]
 
 sigflow_legacy_exposure_df = pd.read_csv(r_output_file_dir + "/sigflow/legacy_fitting_relative_exposure.csv")
 # sigflow_legacy_exposure_df.drop(artefacts_cosmic_sigs, inplace= True , axis = 1)
-sigflow_legacy_exposure_df.drop(artefacts_cosmic_sigs, inplace= True , axis = 1)
+# sigflow_legacy_exposure_df.drop(artefacts_cosmic_sigs, inplace= True , axis = 1)
 
 
 artefacts_sbs_sigs = ["SBS1","SBS5","SBS27","SBS43","SBS45","SBS46","SBS47","SBS48","SBS49","SBS50","SBS51","SBS52","SBS53","SBS54","SBS55","SBS56","SBS57","SBS58","SBS59","SBS60"]
 
 sigflow_sbs_exposure_df = pd.read_csv(r_output_file_dir + "/sigflow/SBS_fitting_relative_exposure.csv")
-sigflow_sbs_exposure_df.drop(artefacts_sbs_sigs, inplace= True , axis = 1)
+# sigflow_sbs_exposure_df.drop(artefacts_sbs_sigs, inplace= True , axis = 1)
 
 mutationalPatterns_legacy_exposure_df = pd.read_csv(r_output_file_dir + "/mutational_patterns_results/legacy_sample_exposures.csv")
 mutationalPatterns_legacy_exposure_df = mutationalPatterns_legacy_exposure_df.transpose()
@@ -237,23 +228,24 @@ sigfit_sbs_exposure_df.rename(columns={"Unnamed: 0": "sample" }, inplace= True)
 sigfit_sbs_exposure_df = sigfit_sbs_exposure_df[["sample"] +[col for col in sigfit_sbs_exposure_df if col.startswith('mean')]]
 sigfit_sbs_exposure_df.columns = ["sample"] +  [i.split(".")[1] for i in sigfit_sbs_exposure_df.columns[1:]]
 
+import math 
+pie_chart_rows = math.ceil(sigflow_legacy_exposure_df.shape[0] / 3) 
+pie_chart_cols = 3
+sigflow_legacy_exposure_df_fig = make_piecharts(sigflow_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data Sigflow")    
+sigflow_sbs_exposure_df_fig = make_piecharts(sigflow_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigflow")   
+
+sbs_mutational_patters_fig = make_piecharts(mutationalPatterns_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures  data MutationalPatterns")    
+sbs_mutational_patters_strict_fig = make_piecharts(mutationalPatterns_strict_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data MutationalPatterns Strict")    
+
+mutationalPatters_legacy_fig = make_piecharts(mutationalPatterns_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures  data MutationalPatterns")    
+mutationalPatters_strict_legacy_fig = make_piecharts(mutationalPatterns_strict_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data MutationalPatterns Strict")    
 
 
-sigflow_legacy_exposure_df_fig = make_piecharts(sigflow_legacy_exposure_df, 4, 6, "COSMIC V2 'Legacy' exposures data Sigflow")    
-sigflow_sbs_exposure_df_fig = make_piecharts(sigflow_sbs_exposure_df, 4, 6, "COSMIC V3 'SBS' exposures data Sigflow")   
+sigfit_legacy_exposure_df_fig = make_piecharts(sigfit_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures  data Sigfit")    
+sigfit_sbs_exposure_df_fig = make_piecharts(sigfit_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigfit")   
 
-sbs_mutational_patters_fig = make_piecharts(mutationalPatterns_sbs_exposure_df, 4, 6, "COSMIC V3 'SBS' exposures  data MutationalPatterns")    
-sbs_mutational_patters_strict_fig = make_piecharts(mutationalPatterns_strict_sbs_exposure_df, 4, 6, "COSMIC V3 'SBS' exposures data MutationalPatterns Strict")    
-
-mutationalPatters_legacy_fig = make_piecharts(mutationalPatterns_legacy_exposure_df, 4, 6, "COSMIC V2 'Legacy' exposures  data MutationalPatterns")    
-mutationalPatters_strict_legacy_fig = make_piecharts(mutationalPatterns_strict_legacy_exposure_df, 4, 6, "COSMIC V2 'Legacy' exposures data MutationalPatterns Strict")    
-
-
-sigfit_legacy_exposure_df_fig = make_piecharts(sigfit_legacy_exposure_df, 4, 6, "COSMIC V2 'Legacy' exposures  data Sigfit")    
-sigfit_sbs_exposure_df_fig = make_piecharts(sigfit_sbs_exposure_df, 4, 6, "COSMIC V3 'SBS' exposures data Sigfit")   
-
-deconstructSigs_sbs_exposure_df_fig = make_piecharts(deconstructSigs_sbs_exposure_df, 4, 6, "COSMIC V3 'Legacy' exposures data DeconstructSigs")    
-deconstructSigs_legacy_exposure_df_fig = make_piecharts(deconstructSigs_legacy_exposure_df, 4, 6, "COSMIC V2 'Legacy' exposures data DeconstructSigs")    
+deconstructSigs_sbs_exposure_df_fig = make_piecharts(deconstructSigs_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'Legacy' exposures data DeconstructSigs")    
+deconstructSigs_legacy_exposure_df_fig = make_piecharts(deconstructSigs_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data DeconstructSigs")    
 
 
 with open(r_output_file_dir + '/legacy_pie_charts.html', 'a') as f:
@@ -274,7 +266,7 @@ with open(r_output_file_dir + '/sbs_pie_charts.html', 'a') as f:
 
 
 legacy_df_list = [ mutationalPatterns_legacy_exposure_df.sort_values(by=["sample"]) , mutationalPatterns_strict_legacy_exposure_df.sort_values(by=["sample"]) ,  sigfit_legacy_exposure_df.sort_values(by=["sample"]), sigflow_legacy_exposure_df.sort_values(by=["sample"]) ,  deconstructSigs_legacy_exposure_df.sort_values(by=["sample"]) ]
-legacy_df_name_list = ["mutationalPatterns_legacy_exposure_df", "mutationalPatterns_strict_legacy_exposure_df",  "sigfit_legacy_exposure_df" , "sigflow_legacy_exposure_df" ,  "deconstructSigs_legacy_exposure_df"]
+legacy_df_name_list = ["mutationalPatterns_legacy_exposures", "mutationalPatterns_strict_legacy_exposures",  "sigfit_legacy_exposures" , "sigflow_legacy_exposures" ,  "deconstructSigs_legacy_exposures"]
 distance_df_list = []
 for i in range(legacy_df_list[0].shape[0]):
 	temp_df = []
@@ -309,15 +301,15 @@ mutationalPatterns_sbs_exposure_df = mutationalPatterns_sbs_exposure_df.reindex(
 	   'SBS86', 'SBS87', 'SBS88', 'SBS89', 'SBS90'])
 
 
-sbs_df_list = [mutationalPatterns_sbs_exposure_df.sort_values(by=["sample"]), sigfit_sbs_exposure_df.sort_values(by=["sample"]), sigflow_sbs_exposure_df.sort_values(by=["sample"]), deconstructSigs_sbs_exposure_df.sort_values(by=["sample"]) ]
-sbs_df_name_list = [ "mutationalPatterns_sbs_exposure_df",  "sigfit_sbs_exposure_df" , "sigflow_sbs_exposure_df" , "deconstructSigs_sbs_exposure_df"]
+sbs_df_list = [mutationalPatterns_sbs_exposure_df.sort_values(by=["sample"]), mutationalPatterns_strict_sbs_exposure_df.sort_values(by=["sample"]),  sigfit_sbs_exposure_df.sort_values(by=["sample"]), sigflow_sbs_exposure_df.sort_values(by=["sample"]), deconstructSigs_sbs_exposure_df.sort_values(by=["sample"]) ]
+sbs_df_name_list = [ "mutationalPatterns_sbs_exposures", "mutationalPatterns_strict_sbs_exposures" ,  "sigfit_sbs_exposures" , "sigflow_sbs_exposures" , "deconstructSigs_sbs_exposures"]
 distance_df_list = []
 for i in range(sbs_df_list[0].shape[0]):
 	temp_df = []
 	for index , j in enumerate(sbs_df_list):
 		j["sample"] = sbs_df_name_list[index]
 		temp_df.append(list(j.iloc[i,:]))
-	_df = pd.DataFrame(temp_df, columns = sbs_df_list[1].columns)
+	_df = pd.DataFrame(temp_df, columns = sbs_df_list[3].columns)
 	_df.fillna(0, inplace= True)
 	distance_df_list.append(_df)
 

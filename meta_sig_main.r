@@ -71,9 +71,9 @@ if (length(args) == 0) {
 input <- args[1]
 genome_build = args[2]
 
-setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper/metaSignatures/")
+setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\normal_somatic_READ")
 
-input = "test_data"
+input = "no_comments"
 genome_build = "hg19"
 
 
@@ -120,6 +120,7 @@ if (!is.null(input)) {
 } 
 
 data_matrix = sig_tally(obj)
+write.csv(obj@data,"rectal_normal.maf")
 data_matrix = data_matrix$nmf_matrix
 ######### Installation and setup
 FrobeniusNorm <- function(M, P, E) {
