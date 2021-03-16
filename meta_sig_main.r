@@ -169,6 +169,10 @@ data_matrix_stratton = result
 # data_matrix_id = data_matrix_id$nmf_matrix
 # data_matrix_id = data_matrix_id[apply(data_matrix_id[,-1], 1, function(x) !all(x==0)),]
 
+output_tally(as.matrix(data_matrix_dbs_stratton / colSums(data_matrix_dbs_stratton)), "MetaMutationalResults/", mut_type = "DBS")
+
+
+
 data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/Sigprofiler.ID83.all" ,sep = "\t"))
 result <- data_matrix_id_stratton[-1]
 row.names(result) <- data_matrix_id_stratton$MutationType 
