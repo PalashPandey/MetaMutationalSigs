@@ -93,7 +93,7 @@ if (length(args) == 0) {
 input <- args[1]
 genome_build = args[2]
 
-setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/kidney_vcf/indels/plink")
+setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/kidney_vcf/plink_snp/MetaMutationalResults/")
 setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/PLOS_review_paper/metaSignatures/")
 
 input = "no_comments/"
@@ -147,46 +147,42 @@ if (!is.null(input)) {
   }
 }
 
-data_matrix = sig_tally(obj, cores = 4)
-data_matrix = data_matrix$nmf_matrix
-data_matrix = data_matrix[apply(data_matrix[,-1], 1, function(x) !all(x==0)),]
+# data_matrix = sig_tally(obj, cores = 4)
+# data_matrix = data_matrix$nmf_matrix
+# data_matrix = data_matrix[apply(data_matrix[,-1], 1, function(x) !all(x==0)),]
+
+obj@data[obj@data$Variant_Type %in% c('INS', 'DEL') ,]
+gene_shortlist_df = obj@data[obj@data$Hugo_Symbol %in% c('POLE', 'POLD1') ,]
+gene_shortlist_df = gene_shortlist_df[gene_shortlist_df$Tumor_Sample_Barcode %in% c('101791.snp.no_comments' ,'109841.snp.no_comments', '132168.snp.no_comments', '107312.snp.no_comments',  '121077.snp.no_comments')]
+
+
+
+write.csv(gene_shortlist_df, "gene_sample_shortlist_pole_pold1_03_15_21.csv")
+dt[dt$fct %in% vc,]
 
 data_matrix_stratton =  as.data.frame(read.csv("output/SBS/Sigprofiler.SBS96.all" ,sep = "\t"))
 result <- data_matrix_stratton[-1]
 row.names(result) <- data_matrix_stratton$MutationType 
 data_matrix_stratton = result
-data_matrix_stratton
 
-t(data_matrix)
-write.csv(t(data_matrix),"no_comments/sbs_counts.csv")
-
-
-data_matrix_id = sig_tally(obj, mode = c("ID"), cores = 4)
-data_matrix_id = data_matrix_id$nmf_matrix
-data_matrix_id = data_matrix_id[apply(data_matrix_id[,-1], 1, function(x) !all(x==0)),]
+# data_matrix_id = sig_tally(obj, mode = c("ID"), cores = 4)
+# data_matrix_id = data_matrix_id$nmf_matrix
+# data_matrix_id = data_matrix_id[apply(data_matrix_id[,-1], 1, function(x) !all(x==0)),]
 
 data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/Sigprofiler.ID83.all" ,sep = "\t"))
 result <- data_matrix_id_stratton[-1]
 row.names(result) <- data_matrix_id_stratton$MutationType 
 data_matrix_id_stratton = result
-data_matrix_id_stratton
 
-
-
-
-data_matrix_dbs = sig_tally(obj, mode = c("DBS"), cores = 4 )
-data_matrix_dbs = data_matrix_dbs$nmf_matrix
-data_matrix_dbs = data_matrix_dbs[apply(data_matrix_dbs[,-1], 1, function(x) !all(x==0)),]
-t(data_matrix_dbs)
+# data_matrix_dbs = sig_tally(obj, mode = c("DBS"), cores = 4 )
+# data_matrix_dbs = data_matrix_dbs$nmf_matrix
+# data_matrix_dbs = data_matrix_dbs[apply(data_matrix_dbs[,-1], 1, function(x) !all(x==0)),]
+# t(data_matrix_dbs)
 
 data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/Sigprofiler.DBS78.all" ,sep = "\t"))
 result <- data_matrix_dbs_stratton[-1]
 row.names(result) <- data_matrix_dbs_stratton$MutationType 
 data_matrix_dbs_stratton = result
-data_matrix_dbs_stratton
-
-
-write.csv(t(data_matrix_dbs),"no_comments/dbs_counts.csv")
 
 
 ######### Installation and setup
