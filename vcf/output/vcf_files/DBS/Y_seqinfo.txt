@@ -1,0 +1,6 @@
+test_example_3	Y	13868220	N:T[CT>AA]A	-1
+test_example_4	Y	4310676	N:T[CC>AA]A	1
+test_example_5	Y	15886416	Q:T[GC>TA]C	0
+test_example_5	Y	28753214	N:C[CC>GA]A	1
+test_example_6	Y	13433348	N:C[CC>AG]C	1
+test_example_9	Y	10006833	Q:G[AC>GT]C	0

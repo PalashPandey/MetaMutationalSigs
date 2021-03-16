@@ -1,6 +1,6 @@
 ,RMSE,toolname
-sigflow,6.103059724433311,sigflow
-sigfit,4.569083695951364,sigfit
-mutationalPatterns_strict,11.296163665427526,mutationalPatterns_strict
-mutationalPatterns,11.264236357334502,mutationalPatterns
-deconstructSigs,14.925153707228382,deconstructSigs
+sigflow,2.613115067574136,sigflow
+sigfit,4.147868024974041,sigfit
+mutationalPatterns_strict,3.669685466910746,mutationalPatterns_strict
+mutationalPatterns,3.66613590033566,mutationalPatterns
+deconstructSigs,4.15623752549102,deconstructSigs

@@ -1,0 +1,15 @@
+test_example_1	21	19868300	N:C[TC>AA]C	-1
+test_example_10	21	22228608	N:T[CT>GC]G	1
+test_example_2	21	21719975	N:T[CC>AA]T	1
+test_example_2	21	23858556	N:T[CC>AG]A	-1
+test_example_2	21	43412285	T:G[CC>AT]T	1
+test_example_3	21	15168843	Q:A[CG>AT]C	0
+test_example_3	21	38466579	T:A[CC>TT]A	-1
+test_example_3	21	45990683	Q:A[AC>TT]A	0
+test_example_4	21	16220676	N:C[CT>TC]A	1
+test_example_5	21	19938776	N:A[TT>AG]G	-1
+test_example_8	21	10512008	N:T[TC>CA]T	-1
+test_example_8	21	40643911	Q:A[GC>TA]T	0
+test_example_8	21	41875518	T:T[CC>TT]G	1
+test_example_9	21	17052869	N:T[TT>AA]A	-1
+test_example_9	21	43789972	N:T[TC>AA]A	-1

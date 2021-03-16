@@ -1,0 +1,60 @@
+THIS FILE CONTAINS THE METADATA ABOUT SYSTEM AND RUNTIME
+
+
+-------System Info-------
+Operating System Name: Windows
+Nodename: Palash
+Release: 10
+Version: 10.0.19041
+
+-------Python and Package Versions------- 
+Python Version: 3.7.1
+SigProfilerMatrixGenerator Version: 1.1.26
+SigProfilerPlotting version: 1.1.12
+matplotlib version: 3.2.1
+statsmodels version: 0.9.0
+scipy version: 1.4.1
+pandas version: 1.0.3
+numpy version: 1.20.1
+
+-------Vital Parameters Used for the execution -------
+Project: vcf
+Genome: GRCh37
+Input File Path: vcf/
+exome: False
+bed_file: None
+chrom_based: False
+plot: False
+tsb_stat: True
+seqInfo: True
+
+-------Date and Time Data------- 
+Date and Clock time when the execution started: 2021-03-09 05:23:59.399532
+
+
+-------Runtime Checkpoints------- 
+Chromosome 10 done
+Chromosome 11 done
+Chromosome 12 done
+Chromosome 13 done
+Chromosome 14 done
+Chromosome 15 done
+Chromosome 16 done
+Chromosome 17 done
+Chromosome 18 done
+Chromosome 19 done
+Chromosome 1 done
+Chromosome 20 done
+Chromosome 21 done
+Chromosome 22 done
+Chromosome 2 done
+Chromosome 3 done
+Chromosome 4 done
+Chromosome 5 done
+Chromosome 6 done
+Chromosome 7 done
+Chromosome 8 done
+Chromosome 9 done
+Chromosome MT done
+Chromosome X done
+Chromosome Y done
