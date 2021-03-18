@@ -109,7 +109,7 @@ final_df_all_modes =  rbind(rbind(final_legacy_df, final_sbs_df) , final_dbs_df)
 
 setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/PLOS_review_paper/metaSignatures/paper/")
 
-devtools::install_github("kassambara/ggpubr")
+# devtools::install_github("kassambara/ggpubr")
 library(ggpubr)
 library(ggbeeswarm)
 
