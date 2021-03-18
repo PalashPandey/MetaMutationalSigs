@@ -53,23 +53,11 @@ library(deconstructSigs)
 library(sigfit)
 library(sigminer)
 library(dplyr)
-
 library("reticulate") 
+library("devtools")
+library("SigProfilerMatrixGeneratorR")
 use_python("C:/Users/pande/Anaconda3/python.exe")
 py_config()
-library("devtools")
-
-# install_github("AlexandrovLab/SigProfilerMatrixGeneratorR")
-setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/PLOS_review_paper/metaSignatures/")
-
-library("SigProfilerMatrixGeneratorR")
-
-# genInstall.install('GRCh37', bash=True)
-matrices <- SigProfilerMatrixGeneratorR("MetaMutationalSigs", "GRCh37", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/PLOS_review_paper/metaSignatures/test_data/maf/tcga_laml.maf.gz")
-
-typeof(matrices$"96")
-
-
 data("cosmic_signatures_v2")
 data("cosmic_signatures_v3")
 load("data/signatures.exome.cosmic.v3.may2019.rda")
@@ -93,7 +81,7 @@ if (length(args) == 0) {
 input <- args[1]
 genome_build = args[2]
 
-setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/kidney_vcf/plink_snp/MetaMutationalResults/")
+setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC/normal_somatic_READ/vcf_files/")
 setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/PLOS_review_paper/metaSignatures/")
 
 input = "no_comments/"
@@ -150,17 +138,19 @@ if (!is.null(input)) {
 # data_matrix = sig_tally(obj, cores = 4)
 # data_matrix = data_matrix$nmf_matrix
 # data_matrix = data_matrix[apply(data_matrix[,-1], 1, function(x) !all(x==0)),]
+ 
+# obj@data[obj@data$Variant_Type %in% c('INS', 'DEL') ,]
+# gene_shortlist_df = obj@data[obj@data$Hugo_Symbol %in% c('POLE', 'POLD1') ,]
+# gene_shortlist_df = gene_shortlist_df[gene_shortlist_df$Tumor_Sample_Barcode %in% c('101791.snp.no_comments' ,'109841.snp.no_comments', '132168.snp.no_comments', '107312.snp.no_comments',  '121077.snp.no_comments')]
+# write.csv(gene_shortlist_df, "gene_sample_shortlist_pole_pold1_03_15_21.csv")
+# dt[dt$fct %in% vc,]
 
-obj@data[obj@data$Variant_Type %in% c('INS', 'DEL') ,]
-gene_shortlist_df = obj@data[obj@data$Hugo_Symbol %in% c('POLE', 'POLD1') ,]
-gene_shortlist_df = gene_shortlist_df[gene_shortlist_df$Tumor_Sample_Barcode %in% c('101791.snp.no_comments' ,'109841.snp.no_comments', '132168.snp.no_comments', '107312.snp.no_comments',  '121077.snp.no_comments')]
 
+matrices <- SigProfilerMatrixGeneratorR("MetaMutationalSigs", "GRCh37", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC/normal_somatic_READ/vcf_files/no_comments/")
 
+setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC/normal_somatic_UCEC/filtered_vcf/no_comments/")
 
-write.csv(gene_shortlist_df, "gene_sample_shortlist_pole_pold1_03_15_21.csv")
-dt[dt$fct %in% vc,]
-
-data_matrix_stratton =  as.data.frame(read.csv("output/SBS/Sigprofiler.SBS96.all" ,sep = "\t"))
+data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
 result <- data_matrix_stratton[-1]
 row.names(result) <- data_matrix_stratton$MutationType 
 data_matrix_stratton = result
@@ -169,11 +159,8 @@ data_matrix_stratton = result
 # data_matrix_id = data_matrix_id$nmf_matrix
 # data_matrix_id = data_matrix_id[apply(data_matrix_id[,-1], 1, function(x) !all(x==0)),]
 
-output_tally(as.matrix(data_matrix_dbs_stratton / colSums(data_matrix_dbs_stratton)), "MetaMutationalResults/", mut_type = "DBS")
 
-
-
-data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/Sigprofiler.ID83.all" ,sep = "\t"))
+data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/MetaMutationalSigs.ID83.all" ,sep = "\t"))
 result <- data_matrix_id_stratton[-1]
 row.names(result) <- data_matrix_id_stratton$MutationType 
 data_matrix_id_stratton = result
@@ -183,7 +170,7 @@ data_matrix_id_stratton = result
 # data_matrix_dbs = data_matrix_dbs[apply(data_matrix_dbs[,-1], 1, function(x) !all(x==0)),]
 # t(data_matrix_dbs)
 
-data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/Sigprofiler.DBS78.all" ,sep = "\t"))
+data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/MetaMutationalSigs.DBS78.all" ,sep = "\t"))
 result <- data_matrix_dbs_stratton[-1]
 row.names(result) <- data_matrix_dbs_stratton$MutationType 
 data_matrix_dbs_stratton = result
@@ -642,9 +629,9 @@ runDBS = function(ref_genome = "hg19",
 
 # output_dir = "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\normal_somatic_READ//metaMutationalSigsResults"
 setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles/kidney_vcf/plink_snp//MetaMutationalResults/")
-
+dir.create("MetaMutationalResults")
 output_dir = args[3]
-setwd(output_dir)
+setwd("MetaMutationalResults")
 print(output_dir)
 
 runLegacy( mut_mat_input = t(data_matrix_stratton) )
