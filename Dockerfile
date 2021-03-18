@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base r-cran-randomforest python3.6 python3-pip python3-setuptools python3-dev
 
 WORKDIR /app
-RUN apt-get install libcurl4-openssl-dev libssl-dev libxml2-dev
+RUN apt-get -y install libcurl4-openssl-dev libssl-dev libxml2-dev
 
 COPY requirements.txt /app/requirements.txt
 
