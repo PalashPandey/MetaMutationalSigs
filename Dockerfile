@@ -20,7 +20,7 @@ RUN Rscript -e "library(devtools)"
 RUN R -e "BiocManager::install('BSgenome')" && \
     R -e "BiocManager::install('BSgenome.Hsapiens.UCSC.hg19')" 
 
-RUN R -e "BiocManager::install('ShixiangWang/sigminer@v1.2.3', dependencies = TRUE)"
+RUN R -e "install.packages("sigminer", dependencies = TRUE)"
 
 RUN Rscript -e "library(reticulate);use_python('/usr/bin/python3.8');library(devtools);install_github('AlexandrovLab/SigProfilerMatrixGeneratorR');library(SigProfilerMatrixGeneratorR)"
 
