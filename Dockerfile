@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 WORKDIR /app
 RUN apt-get -y install libcurl4-openssl-dev libssl-dev libxml2-dev
 
-COPY .* /app
+COPY .* app/
 
 RUN pip3 install -r requirements.txt
 RUN python3.8 install_sigprofilerMatrixGenerator.py
