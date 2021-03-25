@@ -40,7 +40,7 @@ def add_scatterplot_layer(data_df, _color , fig ):
     for i in range(len(data_df)):
         fig.add_trace(go.Scatter( name = data_df.iloc[i]["sample"] , legendgroup=data_df.iloc[i]["sample"] ,  marker=dict(color= _color), x = data_df.columns[1:], y = data_df.iloc[i, 1:], mode='markers') )
 
-r_output_file_dir = sys.argv[1] + "\\MetaMutationalResults"
+r_output_file_dir = sys.argv[1] + "/MetaMutationalResults"
 # r_output_file_dir = "MetaMutationalResults"
 
 def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPattern = True):

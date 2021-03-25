@@ -1,51 +1,4 @@
-# "=================================================================
-# MetaMutationalSigs
-# Author: Palash Pandey (pp535@drexel.edu)
-# Desc:
-#   extract - extract signatures by either automatic or semi-automatic way.
-# 			Of note, when you use manual way, you need to run 2 times,
-# 			firstly you should set --manual to get signature estimation results,
-# 			and secondly you should set --manual --number N to get N signatures.
-# Usage:
-#   MetaMutationalSigs --inputdir=<input_directoryectory> [--genome=<genome>]
-# Options:
-#   -h --help     Show help message.
-#   --version     Show version.
-#   -i <file>, --input <file>       input VCF directory path
-#   -g <genome>, --genome <genome>  can be hg19, hg38 or mm10, [default: hg19].
-# =================================================================" -> doc
-
-# if (!suppressMessages(require("docopt"))) {
-#   install.packages("docopt", repos = "https://cloud.r-project.org")
-# }
-
-# library("docopt")
-# arguments <- docopt(doc, "MetaMutationalSigs v1.0\n")
-# print(arguments)
-
-# ## Stop error parsing
-# if (!exists("arguments")) {
-#   quit("no", status = -1)
-# }
-
-# message(
-#   "
-# =================================================================
-#   __  __      _        __  __       _        _   _                   _  _____ _
-#  |  \/  |    | |      |  \/  |     | |      | | (_)                 | |/ ____(_)
-#  | \  / | ___| |_ __ _| \  / |_   _| |_ __ _| |_ _  ___  _ __   __ _| | (___  _  __ _ ___
-#  | |\/| |/ _ \ __/ _` | |\/| | | | | __/ _` | __| |/ _ \| '_ \ / _` | |\___ \| |/ _` / __|
-#  | |  | |  __/ || (_| | |  | | |_| | || (_| | |_| | (_) | | | | (_| | |____) | | (_| \__ \
-#  |_|  |_|\___|\__\__,_|_|  |_|\__,_|\__\__,_|\__|_|\___/|_| |_|\__,_|_|_____/|_|\__, |___/
-# 																				 __/ |
-# 																				|___/
-# Name   :       MetaMutationalSigs
-# Link   :       https://github.com/PalashPandey/MetaMutationalSigs
-# Doc    :       https://github.com/PalashPandey/MetaMutationalSigs
-# ============================== START
-# "
-# )
-setwd("C:\\Users\\pande\\OneDriveDrexelUniversity\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\")
+setwd(".\")
 getwd()
 ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
 library(ref_genome, character.only = TRUE)
@@ -638,7 +591,6 @@ genome_build = args[2]
 print(input_directory)
 setwd(input_directory)
 
-# "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC/normal_somatic_UCEC/filtered_vcf/no_comments/"
 if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
   data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
   result <- data_matrix_stratton[-1]

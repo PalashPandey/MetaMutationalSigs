@@ -34,7 +34,6 @@ def upload_file():
 			return redirect(request.url)
 		files = request.files.getlist('files[]')
 		whichtorun_list = request.form.getlist('whichToRun')
-		print(whichtorun_list)
 		if "runMutationalPatterns" in whichtorun_list   :
 			global mutationalPattern
 			mutationalPattern = "TRUE"   
@@ -47,7 +46,6 @@ def upload_file():
 		if "runDeconstructSigs" in whichtorun_list :
 			global deconstructSigs
 			deconstructSigs = "TRUE"   
-		print(mutationalPattern ,sigflow, sigfit, deconstructSigs )
 		for file in files:
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
@@ -68,18 +66,15 @@ def progress():
 		if glob.glob("./uploads/*.vcf"):
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/uploads")
 			x = x + 33
-			print(x)
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['C:\\Program Files\\R\\R-4.0.2\\bin\\Rscript', "\\metaSignatures\\meta_sig_main_flask.R", "metaSignatures\\flaskmultiplefileupload\\uploads" , "hg19" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['Rscript', "meta_sig_main_flask.R", "./flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
-			print(x)
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['C:\\Users\\pande\\Anaconda3\\python.exe ', "\\metaSignatures\\errors_pie_heatmap.py", "\\metaSignatures\\flaskmultiplefileupload\\uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['python3.8', "./errors_pie_heatmap.py", "flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
-			print(x)
 			yield "data:" + str(x) + "\n\n"
-			shutil.make_archive("metaMutationalSignatures_results", 'zip', "\\metaSignatures\\flaskmultiplefileupload\\uploads")
-			shutil.rmtree("C:\\Users\\pande\\OneDriveDrexelUniversity\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flaskmultiplefileupload\\uploads")
+			shutil.make_archive("metaMutationalSignatures_results", 'zip', "flask_ui_app/uploads")
+			shutil.rmtree("flask_ui_app/uploads")
 			if not os.path.isdir(app.config['UPLOAD_FOLDER']):
 				os.mkdir(app.config['UPLOAD_FOLDER'])
 		else:
@@ -92,9 +87,8 @@ def dummy():
 
 @app.route('/download')
 def download():
-	print("download")
-	return send_file("C:\\Users\\pande\\OneDriveDrexelUniversity\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flaskmultiplefileupload\\metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
+	return send_file("flask_ui_app/uploads" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
 
 
 if __name__ == "__main__":
-	app.run(host='127.0.0.1',port=5000,debug=False,threaded=True)
+	app.run(host='127.0.0.1',port=5000,debug=True,threaded=True)
