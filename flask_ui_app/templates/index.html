@@ -61,14 +61,13 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <i class="fa fa-bars"></i>
       </button>
-      <a data-scroll-nav="0" href="http://127.0.0.1:5000/" class="navbar-brand"> MetaMutationalSignatures </a>
+      <a data-scroll-nav="0" href="/" class="navbar-brand"> MetaMutationalSignatures </a>
     </div>
 
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#about" data-scroll-nav="1" class="active">ABOUT</a></li>
         <li><a href="#faq" data-scroll-nav="1" class="active">FAQ</a></li>
-
         <li><a href="#contact" data-scroll-nav="5">CONTACT</a></li>
       </ul>
     </div>
@@ -144,13 +143,91 @@
   
 
 
-  <div class="container" id="abstract">
+  <div class="container" id="about">
     <div class="container" id="long">
-      <span class="theText" style="    margin: 20px;">
+      <span class="theText" >
         The analysis of mutational signatures is becoming increasingly common in cancer genetics, with emerging implications in cancer evolution, classification, treatment decision and prognosis.  Recently, several packages have been developed for mutational signature analysis, with each using different methodology and yielding significantly different results. Because of the nontrivial differences in tools’ refitting results, researchers may desire to survey and compare the available tools, in order to objectively evaluate the results for their specific research question, such as which mutational signatures are prevalent in different cancer types. There is a need for a software that can aggregate results from different refitting packages and present them in a user-friendly way to facilitate effective comparison of mutational signatures. 
       </span>
     </div>
   </div>
+
+  <!-- <div class="container" id="faq">
+    <div class="panel-group" id="accordion">
+        <div class="faqHeader">FAQ</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">What are my input files?</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <strong>MetaMutationalSignatures</strong> requires a directory of VCF files as input.  
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Where is my analysis running?</a>
+                </h4>
+            </div>
+            <div id="collapseTen" class="panel-collapse collapse">
+                <div class="panel-body">
+                  Even though you are operating <strong>MetaMutationalSignatures</strong> from your browser, it is running locally on your system. Your files are never transmitted across any network.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">What do these figures in my result mean?</a>
+                </h4>
+            </div>
+            <div id="collapseEleven" class="panel-collapse collapse">
+                <div class="panel-body">
+                    You can find the description for the result here (link to the paper)
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <style>
+      .faqHeader {
+          font-size: 27px;
+          margin: 20px;
+      }
+  
+      .panel-heading [data-toggle="collapse"]:after {
+          font-family: 'Glyphicons Halflings';
+          content: "e072"; /* "play" icon */
+          float: right;
+          color: #F58723;
+          font-size: 18px;
+          line-height: 22px;
+          /* rotate "play" icon from > (right arrow) to down arrow */
+          -webkit-transform: rotate(-90deg);
+          -moz-transform: rotate(-90deg);
+          -ms-transform: rotate(-90deg);
+          -o-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+      }
+  
+      .panel-heading [data-toggle="collapse"].collapsed:after {
+          /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          color: #454444;
+      }
+  </style> -->
+
+
+
+  </div>
+
 
 
   <section class="container heading" id="contact" data-scroll-index="5">
@@ -179,8 +256,10 @@
   <div class="container" id="footer">
     <a data-scroll-goto="1" class="btn btn-lg btn-outline" style="background-color: black; color: white">
       <i class="fa fa-arrow-up"></i>
-
     </a>
+    <span class="theText" style="    margin: 20px;">
+      This website is based upon work supported by the National Science Foundation (NSF) under awards #1936791 and #1919691, Department of Defence (DOD) award W81XWH-18-1-0148 and Fox Chase Cancer Center Risk Assessment Program Funds. Any opinions, findings, and conclusions or recommendations expressed in this website do not necessarily reflect the views of the NSF or DOD. 
+    </span>
 
   </div>
 

@@ -82,7 +82,6 @@ if __name__ == '__main__':
 			input_dir = arguments["--i"]
 			output_dir = arguments["--o"]
 			genome_ref = arguments["--genome"]
-			input_dir = arguments["--i"]
 			runMutationalPatterns = arguments["--mutationalSignatures"]
 			runsigflow = arguments["--sigflow"]
 			runsigfit = arguments["--sigfit"]

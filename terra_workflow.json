@@ -1,0 +1,25 @@
+task run_metaMutationalSignatures {
+    File vcf_directory_
+    String genome_reference
+    String 
+  
+    command {
+        metaMutatationalSignatures fit ${"-g " + genome_reference} ${"-i " + input_maf} ${"-o results"}
+    }
+  
+    output {
+      ## And make the output ./sigflow_result.gz
+      File output_compressed="./results.tar.gz/"
+    }
+  
+    runtime {
+      docker: "pp535/metamutationalsigs"
+         memory: "64 GB"
+      disks: "local-disk 128 SSD"    
+    }
+  }
+  
+  
+  workflow metaMutationalSignatures {
+    call run_metaMutationalSignatures
+  }
