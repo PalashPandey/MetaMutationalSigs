@@ -7,7 +7,7 @@
 # 			firstly you should set --manual to get signature estimation results,
 # 			and secondly you should set --manual --number N to get N signatures.
 # Usage:
-#   MetaMutationalSigs --inputdir=<input_directory> [--genome=<genome>]
+#   MetaMutationalSigs --inputdir=<input_directoryectory> [--genome=<genome>]
 # Options:
 #   -h --help     Show help message.
 #   --version     Show version.
@@ -45,7 +45,8 @@
 # ============================== START
 # "
 # )
-
+setwd("C:\\Users\\pande\\OneDriveDrexelUniversity\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\")
+getwd()
 ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
 library(ref_genome, character.only = TRUE)
 library(MutationalPatterns)
@@ -53,15 +54,9 @@ library(deconstructSigs)
 library(sigfit)
 library(sigminer)
 library(dplyr)
-library("reticulate") 
+library(ggpubr)
 library("devtools")
-library("SigProfilerMatrixGeneratorR")
-use_python("C:/Users/pande/Anaconda3/python.exe")
-py_config()
 data("cosmic_signatures_v2")
-data("cosmic_signatures_v3")
-load("data/signatures.exome.cosmic.v3.may2019.rda")
-load("data/signatures.cosmic.rda")
 SBS_signatures <- readRDS("data/SBS_signatures.rds")$db
 DBS_signatures <- readRDS("data/DBS_signatures.rds")$db
 ID_signatures <- readRDS("data/ID_signatures.rds")$db
@@ -241,6 +236,7 @@ runLegacy = function(ref_genome = "hg19",
   mut_mat <- mut_mat_input
   mut_mat <- t(mut_mat)
   ####### MutationalPatteTRUE
+  print(mutationalPatterns)
   if (mutationalPatterns){
     signatures_legacy = as.matrix(legacy_signatures)
     # Strict signature fitting iteratively reduces the number of signatures used for refitting by removing the signature with least contribution
@@ -249,7 +245,8 @@ runLegacy = function(ref_genome = "hg19",
     mut_patterns_strict_legacy_errors <- as.matrix.data.frame(t(mut_mat - fit_res_strict_legacy$reconstructed))
     mut_patterns_strict_legacy_errors <-apply(mut_patterns_strict_legacy_errors  , 1, FrobeniusNorm_mutational_patterns)
     dir.create("./mutational_patterns_results")
-    write.csv(t(fit_res_strict_legacy$contribution),"./mutational_patterns_results/legacy_strict_sample_exposures.csv")
+    print(getwd())
+    write.csv(t(fit_res_strict_legacy$contribution),"./mutational_patterns_results/legacy_strict_sample_exposures.csv" )
     write.csv(mut_patterns_strict_legacy_errors,row.names = colnames(mut_mat),"./mutational_patterns_results/legacy_strict_sample_errors.csv")
     # This is traditional decomposition
     fit_res_legacy <- fit_to_signatures(mut_mat, signatures_legacy)
@@ -276,6 +273,9 @@ runLegacy = function(ref_genome = "hg19",
     output_fit(fit_legacy, result_dir = "sigflow" , mut_type = "legacy")
     sigflow_legacy_df = as_tibble(read.csv("sigflow/legacy_fitting_reconstruction_errors.csv"))%>%
       mutate(toolname = "sigflow")
+    if (!exists("final_legacy_df")){
+        final_legacy_df = sigflow_legacy_df[FALSE,]
+    }
     final_legacy_df = rbind(final_legacy_df ,sigflow_legacy_df)    
   }
   ########### DeconstructSigs
@@ -294,7 +294,10 @@ runLegacy = function(ref_genome = "hg19",
     decon_legacy_df = as_tibble(read.csv("deconstructsigs_results/legacy_sample_errors.csv")) %>% 
       rename( sample = X,  error = x) %>%
       mutate(toolname = "deconstructsigs")
-    final_legacy_df = rbind(final_legacy_df , decon_legacy_Df)    
+    if (!exists("final_legacy_df")){
+        final_legacy_df = decon_legacy_df[FALSE,]
+    }
+    final_legacy_df = rbind(final_legacy_df , decon_legacy_df)    
   }
   ######### Sigfit
   if (sigfit){
@@ -322,6 +325,9 @@ runLegacy = function(ref_genome = "hg19",
     sigfit_legacy_df = as_tibble(read.csv("sigfit_results/sample_errors_legacy.csv"))%>% 
       rename( sample = X,  error = errors_per_sample)%>%
       mutate(toolname = "sigfit")
+    if (!exists("final_legacy_df")){
+        final_legacy_df = sigfit_legacy_df[FALSE,]
+    }
     final_legacy_df = rbind(final_legacy_df , sigfit_legacy_df)    
   }
   final_legacy_df = final_legacy_df %>% 
@@ -382,6 +388,9 @@ runSBS = function(ref_genome = "hg19",
     output_fit(fit_sbs, result_dir =  "sigflow" , mut_type = "SBS")
     sigflow_sbs_df = as_tibble(read.csv("sigflow/SBS_fitting_reconstruction_errors.csv"))%>%
       mutate(toolname = "sigflow")
+    if (!exists("final_sbs_df")){
+        final_sbs_df = sigflow_sbs_df[FALSE,]
+    }
     final_sbs_df = rbind(final_sbs_df, sigflow_sbs_df)
   }  
   ########### DeconstructSigs
@@ -404,6 +413,10 @@ runSBS = function(ref_genome = "hg19",
     decon_sbs_df = as_tibble(read.csv("deconstructsigs_results/sbs_sample_errors.csv")) %>% 
       rename( sample = X,  error = x) %>%
       mutate(toolname = "deconstructsigs")
+    if (!exists("final_sbs_df")){
+        final_sbs_df = decon_sbs_df[FALSE,]
+    }
+
     final_sbs_df = rbind(final_sbs_df, decon_sbs_df)
   }
 
@@ -425,6 +438,9 @@ runSBS = function(ref_genome = "hg19",
     sigfit_sbs_df = as_tibble(read.csv("sigfit_results/sample_errors_sbs.csv"))%>% 
       rename( sample = X,  error = errors_per_sample_sbs)%>%
       mutate(toolname = "sigfit")
+    if (!exists("final_sbs_df")){
+        final_sbs_df = sigfit_sbs_df[FALSE,]
+    }
     final_sbs_df = rbind(final_sbs_df, sigfit_sbs_df)
   }
   
@@ -465,6 +481,9 @@ runIndel = function(ref_genome = "hg19",
     output_fit(fit_indel, result_dir =  "sigflow" , mut_type = "ID")
     sigflow_id_df = as_tibble(read.csv("sigflow/ID_fitting_reconstruction_errors.csv"))%>%
       mutate(toolname = "sigflow")
+    if (!exists("final_id_df")){
+        final_id_df = sigflow_id_df[FALSE,]
+    }
     final_id_df = rbind(final_id_df, sigflow_id_df)
   }
   ########### DeconstructSigs
@@ -483,6 +502,9 @@ runIndel = function(ref_genome = "hg19",
     decon_id_df = as_tibble(read.csv("deconstructsigs_results/indel_sample_errors.csv")) %>% 
       rename( sample = X,  error = x) %>%
       mutate(toolname = "deconstructsigs")
+    if (!exists("final_id_df")){
+        final_id_df = decon_id_df[FALSE,]
+    }
     final_id_df = rbind(final_id_df, decon_id_df)
   }
   ######### Sigfit
@@ -504,7 +526,10 @@ runIndel = function(ref_genome = "hg19",
       mutate(toolname = "sigfit")
     final_id_df = rbind(final_id_df, sigfit_id_df)
   }
-  final_id_df = rbind(rbind(rbind(decon_id_df, mut_id_df), sigfit_id_df), sigflow_id_df) %>%
+  if (!exists("final_id_df")){
+      final_id_df = sigfit_id_df[FALSE,]
+  }
+  final_id_df = final_id_df %>%
     mutate(mode = "ID")
   return(final_id_df)  
 }
@@ -543,6 +568,10 @@ runDBS = function(ref_genome = "hg19",
     output_fit(fit_dbs, result_dir =  "sigflow" , mut_type = "DBS")
     sigflow_dbs_df = as_tibble(read.csv("sigflow/DBS_fitting_reconstruction_errors.csv"))%>%
       mutate(toolname = "sigflow")
+  if (!exists("final_dbs_df")){
+      final_dbs_df = sigflow_dbs_df[FALSE,]
+  }
+
     final_dbs_df = rbind(final_dbs_df , sigflow_dbs_df)
   }
   ########### DeconstructSigs
@@ -561,6 +590,10 @@ runDBS = function(ref_genome = "hg19",
     decon_dbs_df = as_tibble(read.csv("deconstructsigs_results/dbs_sample_errors.csv")) %>% 
       rename( sample = X,  error = x) %>%
       mutate(toolname = "deconstructsigs")
+  if (!exists("final_dbs_df")){
+      final_dbs_df = decon_dbs_df[FALSE,]
+  }
+
     final_dbs_df = rbind(final_dbs_df , decon_dbs_df)
   }
   ######### Sigfit
@@ -580,6 +613,10 @@ runDBS = function(ref_genome = "hg19",
     sigfit_dbs_df = as_tibble(read.csv("sigfit_results/sample_errors_dbs.csv"))%>% 
       rename( sample = X,  error = errors_per_sample_dbs)%>%
       mutate(toolname = "sigfit")
+  if (!exists("final_dbs_df")){
+      final_dbs_df = sigfit_dbs_df[FALSE,]
+  }
+
     final_dbs_df = rbind(final_dbs_df , sigfit_dbs_df)
   }
   final_dbs_df = final_dbs_df %>%
@@ -594,41 +631,80 @@ runDBS = function(ref_genome = "hg19",
 #########################################
 
 # Parsing input
-
-input_dir <- args[1]
+args = commandArgs(trailingOnly=TRUE)
+input_directory <- args[1]
 genome_build = args[2]
 # genome_build = "GRCh37"
+print(input_directory)
+setwd(input_directory)
 
 # "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC/normal_somatic_UCEC/filtered_vcf/no_comments/"
-matrices <- SigProfilerMatrixGeneratorR("MetaMutationalSigs", genome_build, input_dir)
+if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
+  data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
+  result <- data_matrix_stratton[-1]
+  row.names(result) <- data_matrix_stratton$MutationType 
+  data_matrix_stratton = result
+  run_sbs = TRUE
+}else{
+  run_sbs = FALSE
+}
 
-data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
-result <- data_matrix_stratton[-1]
-row.names(result) <- data_matrix_stratton$MutationType 
-data_matrix_stratton = result
+if ( file.exists("output/ID/MetaMutationalSigs.ID83.all")) {
+  data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/MetaMutationalSigs.ID83.all" ,sep = "\t"))
+  result <- data_matrix_id_stratton[-1]
+  row.names(result) <- data_matrix_id_stratton$MutationType 
+  data_matrix_id_stratton = result
+  run_indel = TRUE
+}else {
+  run_indel = FALSE
+}
 
-data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/MetaMutationalSigs.ID83.all" ,sep = "\t"))
-result <- data_matrix_id_stratton[-1]
-row.names(result) <- data_matrix_id_stratton$MutationType 
-data_matrix_id_stratton = result
+if ( file.exists("output/DBS/MetaMutationalSigs.DBS78.all")) {
+  data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/MetaMutationalSigs.DBS78.all" ,sep = "\t"))
+  result <- data_matrix_dbs_stratton[-1]
+  row.names(result) <- data_matrix_dbs_stratton$MutationType 
+  data_matrix_dbs_stratton = result
+  run_dbs = TRUE
+}else {
+  run_dbs = FALSE
+}
 
-data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/MetaMutationalSigs.DBS78.all" ,sep = "\t"))
-result <- data_matrix_dbs_stratton[-1]
-row.names(result) <- data_matrix_dbs_stratton$MutationType 
-data_matrix_dbs_stratton = result
-
-# output_dir = "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\normal_somatic_READ//metaMutationalSigsResults"
 dir.create("MetaMutationalResults")
-output_dir = args[3]
 setwd("MetaMutationalResults")
-print(output_dir)
 
-final_legacy_df = runLegacy( mut_mat_input = t(data_matrix_stratton), mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE )
-final_sbs_df = runSBS( mut_mat_input = t(data_matrix_stratton) ,mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE)
-final_id_df = runIndel( mut_mat_id_input = t(data_matrix_id_stratton) ,mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE)
-final_dbs_df = runDBS( mut_mat_dbs_input = t(data_matrix_dbs_stratton) , mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE)
+input_mutationalPatterns = as.logical(args[3])
+input_sigflow = as.logical(args[4]) 
+input_sigfit = as.logical(args[5]) 
+input_deconstructSigs = as.logical(args[6]) 
 
-final_df =  rbind(rbind(final_legacy_df, final_sbs_df) , final_id_df)
+
+# input_mutationalPatterns = TRUE
+# input_sigflow = FALSE 
+# input_sigfit = FALSE 
+# input_deconstructSigs = FALSE
+
+if (run_sbs){
+  final_legacy_df = runLegacy( mut_mat_input = t(data_matrix_stratton), mutationalPatterns = input_mutationalPatterns, sigflow = input_sigflow , sigfit = input_sigfit , deconstructSigs = input_deconstructSigs )
+  final_sbs_df = runSBS( mut_mat_input = t(data_matrix_stratton) ,mutationalPatterns = input_mutationalPatterns, sigflow = input_sigflow , sigfit = input_sigfit , deconstructSigs = input_deconstructSigs)
+  final_df =  rbind(final_legacy_df, final_sbs_df)
+}
+if (run_indel){
+  final_id_df = runIndel( mut_mat_id_input = t(data_matrix_id_stratton) ,mutationalPatterns = input_mutationalPatterns, sigflow = input_sigflow , sigfit = input_sigfit , deconstructSigs = input_deconstructSigs)
+    if (!exists("final_df")){
+        final_df = final_id_df[FALSE,]
+    }
+  final_df =  rbind(final_df, final_id_df)
+
+}
+if (run_dbs){
+  final_dbs_df = runDBS( mut_mat_dbs_input = t(data_matrix_dbs_stratton) , mutationalPatterns = input_mutationalPatterns, sigflow = input_sigflow , sigfit = input_sigfit , deconstructSigs = input_deconstructSigs)
+    if (!exists("final_df")){
+        final_df = final_dbs_df[FALSE,]
+    }
+  final_df =  rbind(final_df, final_dbs_df)
+
+}
+
 ggboxplot(final_df, x = "toolname",
           y = "error",
           combine = TRUE,
