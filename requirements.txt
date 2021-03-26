@@ -4,3 +4,5 @@ plotly
 seaborn
 SigProfilerMatrixGenerator
 docopt
+flask
+Werkzeug    
