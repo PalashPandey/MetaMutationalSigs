@@ -23,5 +23,5 @@ RUN R -e "install.packages('sigminer', dependencies = TRUE)"
 
 RUN Rscript -e "library(reticulate);use_python('/usr/bin/python3.8');library(devtools);install_github('AlexandrovLab/SigProfilerMatrixGeneratorR');library(SigProfilerMatrixGeneratorR)"
 
-ENTRYPOINT ["python3.8" , "metaMutatationalSignatures.py"]
-CMD [ "--help" ]
+# ENTRYPOINT ["python3.8" , "metaMutatationalSignatures.py"]
+# CMD [ "--help" ]
