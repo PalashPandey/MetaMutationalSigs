@@ -39,16 +39,17 @@
 
 """MetaMutationalSigs
 Usage:
-	metaMutatationalSignatures.py --i=<file> [--output=<outdir>] [--genome=<genome>] [--browser] [--mutationalSignatures] [--sigflow] [--sigfit] [--deconstructSigs]
+	metaMutatationalSignatures.py --i=<file> [--output=<outdir>] [--genome=<genome>] [--mutationalSignatures] [--sigflow] [--sigfit] [--deconstructSigs]
 	metaMutatationalSignatures.py --i=<file> [--output=<outdir>]
+	metaMutatationalSignatures.py --browser
 	metaMutatationalSignatures.py -h | --help
 	metaMutatationalSignatures.py --version
 Options:
 	-h --help     Show this screen.
 	--version     Show version.
 	-i <file>      Input directory with VCF files.
-	-o <outdir>, --output <outdir>  output file path [default: ./metaMutationalSignatures_results.zip/].
-	-g <genome>, --genome <genome>  genome build, can be GRCh37, GRCh38 [default: GRCh37].
+	-o <outdir>		output file path [default: ./metaMutationalSignatures_results.zip/].
+	-g <genome>		genome build, can be GRCh37, GRCh38 [default: GRCh37].
 	--browser    Open in browser.
 	--mutationalSignatures                   run mutationalSignatures [default: TRUE]. 
 	--sigflow                   run sigflow [default: TRUE].  
@@ -72,20 +73,40 @@ Doc    :       https://github.com/PalashPandey/MetaMutationalSigs
 from docopt import docopt
 import os, time, subprocess, shutil, glob
 if __name__ == '__main__':
-		arguments = docopt(__doc__, version='Naval Fate 2.0')
+		arguments = docopt(__doc__, version='MetaMutationalSigs 1.0')
 		print(arguments)
-
 		if arguments["--browser"]:
 			subprocess.call(['python3.8', "flask_ui_app/app.py"])
 		else:
 			from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
 			input_dir = arguments["--i"]
-			output_dir = arguments["--o"]
+			output_dir = arguments["-o"]
 			genome_ref = arguments["--genome"]
 			runMutationalPatterns = arguments["--mutationalSignatures"]
 			runsigflow = arguments["--sigflow"]
 			runsigfit = arguments["--sigfit"]
 			runDeconstructSigs = arguments["--deconstructSigs"]
+			if genome_ref ==  None:
+				genome_ref = "GRCh37"
+			if runMutationalPatterns ==  False:
+				runMutationalPatterns = "TRUE"
+			if runMutationalPatterns ==  True:
+				runMutationalPatterns = "FALSE"
+
+			if runsigflow ==  False:
+				runsigflow = "TRUE"
+			if runsigflow ==  True:
+				runsigflow = "FALSE"
+
+			if runsigfit ==  False:
+				runsigfit = "TRUE"
+			if runsigfit ==  True:
+				runsigfit = "FALSE"
+
+			if runDeconstructSigs ==  False:
+				runDeconstructSigs = "TRUE"
+			if runDeconstructSigs ==  True:
+				runDeconstructSigs = "FALSE"
 
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs", genome_ref , input_dir)
 			subprocess.call(['Rscript', "meta_sig_main_flask.R", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])

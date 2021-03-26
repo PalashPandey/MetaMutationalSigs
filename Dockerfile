@@ -4,10 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base r-cran-randomforest python3.6 python3-pip python3-setuptools python3-dev
 
-WORKDIR /app
 RUN apt-get -y install libcurl4-openssl-dev libssl-dev libxml2-dev
 
-COPY .* app/
+ADD ./ /app 
+WORKDIR /app
 
 RUN pip3 install -r requirements.txt
 RUN python3.8 install_sigprofilerMatrixGenerator.py
@@ -23,5 +23,5 @@ RUN R -e "install.packages('sigminer', dependencies = TRUE)"
 
 RUN Rscript -e "library(reticulate);use_python('/usr/bin/python3.8');library(devtools);install_github('AlexandrovLab/SigProfilerMatrixGeneratorR');library(SigProfilerMatrixGeneratorR)"
 
-CMD ["metaMutatationalSignatures.py"]
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python3.8" , "metaMutatationalSignatures.py"]
+CMD [ "--help" ]

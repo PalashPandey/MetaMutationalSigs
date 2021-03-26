@@ -20,7 +20,7 @@ numpy version: 1.19.2
 -------Vital Parameters Used for the execution -------
 Project: MetaMutationalSigs
 Genome: GRCh37
-Input File Path: C:\Users\pande\OneDriveDrexelUniversity\Documents\Fall-2021\Coop\CGC\SanjeeVCFFiles\PLOS_review_paper\metaSignatures\flaskmultiplefileupload\uploads/
+Input File Path: C:/Users/pande/OneDriveDrexelUniversity/Documents/Fall-2021/Coop/CGC/SanjeeVCFFiles/PLOS_review_paper/metaSignatures/flask_ui_app/uploads/
 exome: False
 bed_file: None
 chrom_based: False
@@ -29,7 +29,7 @@ tsb_stat: False
 seqInfo: True
 
 -------Date and Time Data------- 
-Date and Clock time when the execution started: 2021-03-25 07:00:13.586519
+Date and Clock time when the execution started: 2021-03-26 05:04:46.645862
 
 
 -------Runtime Checkpoints------- 
