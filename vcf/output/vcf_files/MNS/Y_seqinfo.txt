@@ -1,4 +1,0 @@
-test_example_10	Y	5806522	CTACCG>ATACCT
-test_example_10	Y	58996501	CATATC>GATATA
-test_example_5	Y	15905968	CGG>GGT
-test_example_5	Y	22235838	AAC>CAG

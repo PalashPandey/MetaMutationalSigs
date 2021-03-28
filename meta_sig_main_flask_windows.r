@@ -591,8 +591,8 @@ genome_build = args[2]
 print(input_directory)
 setwd(input_directory)
 
-if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
-  data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
+if ( file.exists("output\\SBS\\MetaMutationalSigs.SBS96.all")) {
+  data_matrix_stratton =  as.data.frame(read.csv("output\\SBS\\MetaMutationalSigs.SBS96.all" ,sep = "\t"))
   result <- data_matrix_stratton[-1]
   row.names(result) <- data_matrix_stratton$MutationType 
   data_matrix_stratton = result
@@ -601,8 +601,8 @@ if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
   run_sbs = FALSE
 }
 
-if ( file.exists("output/ID/MetaMutationalSigs.ID83.all")) {
-  data_matrix_id_stratton =  as.data.frame(read.csv("output/ID/MetaMutationalSigs.ID83.all" ,sep = "\t"))
+if ( file.exists("output\\ID\\MetaMutationalSigs.ID83.all")) {
+  data_matrix_id_stratton =  as.data.frame(read.csv("output\\ID\\MetaMutationalSigs.ID83.all" ,sep = "\t"))
   result <- data_matrix_id_stratton[-1]
   row.names(result) <- data_matrix_id_stratton$MutationType 
   data_matrix_id_stratton = result
@@ -611,8 +611,8 @@ if ( file.exists("output/ID/MetaMutationalSigs.ID83.all")) {
   run_indel = FALSE
 }
 
-if ( file.exists("output/DBS/MetaMutationalSigs.DBS78.all")) {
-  data_matrix_dbs_stratton =  as.data.frame(read.csv("output/DBS/MetaMutationalSigs.DBS78.all" ,sep = "\t"))
+if ( file.exists("output\\DBS\\MetaMutationalSigs.DBS78.all")) {
+  data_matrix_dbs_stratton =  as.data.frame(read.csv("output\\DBS\\MetaMutationalSigs.DBS78.all" ,sep = "\t"))
   result <- data_matrix_dbs_stratton[-1]
   row.names(result) <- data_matrix_dbs_stratton$MutationType 
   data_matrix_dbs_stratton = result

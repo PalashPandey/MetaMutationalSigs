@@ -1,7 +1,0 @@
-test_example_3	21	36828497	ATA>CTT
-test_example_3	21	47042141	TCA>ACT
-test_example_5	21	47091463	CTA>TTT
-test_example_6	21	38208121	ACA>TAT
-test_example_7	21	16590519	AGGCCC>CGTCCT
-test_example_7	21	33250370	TAGAT>GAGAC
-test_example_8	21	10131935	AGG>GGT

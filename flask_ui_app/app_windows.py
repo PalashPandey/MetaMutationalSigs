@@ -67,21 +67,21 @@ def progress():
 		yield "data:" + str(x) + "\n\n"
 		if glob.glob("./uploads/*.vcf"):
 			# matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/uploads")
-			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\uploads")
+			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\uploads")
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
 			# subprocess.call(['Rscript', "meta_sig_main_flask.R", "./flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
-			subprocess.call(['C:\\Program Files\\R\\R-4.0.2\\bin\\Rscript', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\meta_sig_main_flask_windows.R", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['C:\\Program Files\\R\\R-4.0.2\\bin\\Rscript', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\meta_sig_main_flask_windows.R", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
 			# subprocess.call(['python3.8', "./errors_pie_heatmap.py", "flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
-			subprocess.call(['C:\\Users\\pande\\Anaconda3\\python.exe', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\errors_pie_heatmap.py", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['C:\\Users\\pande\\Anaconda3\\python.exe', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\errors_pie_heatmap.py", "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
 			# shutil.make_archive("metaMutationalSignatures_results", 'zip', "flask_ui_app/uploads")
 			# shutil.rmtree("flask_ui_app/uploads")
-			shutil.make_archive("metaMutationalSignatures_results", 'zip', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\uploads")
-			shutil.rmtree("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\uploads")
+			shutil.make_archive("metaMutationalSignatures_results", 'zip', "C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\uploads")
+			shutil.rmtree("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\uploads")
 			if not os.path.isdir(app.config['UPLOAD_FOLDER']):
 				os.mkdir(app.config['UPLOAD_FOLDER'])
 		else:
@@ -94,7 +94,7 @@ def dummy():
 
 @app.route('/download')
 def download():
-	return send_file("C:/Users/pande/OneDriveDrexelUniversity/Documents/Fall-2021/Coop/CGC/SanjeeVCFFiles/PLOS_review_paper/metaSignatures/flask_ui_app/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
+	return send_file("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures\\flask_ui_app\\metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
 	# return send_file("flask_ui_app/uploads" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
 
 
