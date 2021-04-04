@@ -1,7 +1,5 @@
 setwd("../")
 getwd()
-ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
-library(ref_genome, character.only = TRUE)
 library(MutationalPatterns)
 library(deconstructSigs)
 library(sigfit)

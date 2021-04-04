@@ -1,7 +1,5 @@
 setwd("C:\\Users\\pande\\OneDrive - Drexel University\\Documents\\Fall-2021\\Coop\\CGC\\SanjeeVCFFiles\\PLOS_review_paper\\metaSignatures")
 getwd()
-ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
-library(ref_genome, character.only = TRUE)
 library(MutationalPatterns)
 library(deconstructSigs)
 library(sigfit)
