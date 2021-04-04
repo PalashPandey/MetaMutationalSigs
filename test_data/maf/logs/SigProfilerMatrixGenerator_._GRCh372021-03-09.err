@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Users\pande\Anaconda3\lib\site-packages\sigproSS\spss.py", line 557, in single_sample
+    data = matGen.SigProfilerMatrixGeneratorFunc(vcf_name, ref, vcf, exome=exome, tsb_stat= True)
+  File "C:\Users\pande\Anaconda3\lib\site-packages\SigProfilerMatrixGenerator\scripts\SigProfilerMatrixGeneratorFunc.py", line 371, in SigProfilerMatrixGeneratorFunc
+    samples = sorted(samples)
+UnboundLocalError: local variable 'samples' referenced before assignment
