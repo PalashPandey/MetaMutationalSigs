@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 setwd("../")
 getwd()
 library(MutationalPatterns)

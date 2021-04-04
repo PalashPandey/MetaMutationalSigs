@@ -109,7 +109,7 @@ if __name__ == '__main__':
 				runDeconstructSigs = "FALSE"
 
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs", genome_ref , input_dir)
-			subprocess.call(['Rscript', "meta_sig_main_flask.R", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
+			subprocess.call(['R', "CMD",  "BATCH" ,  "meta_sig_main_flask.R", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 			subprocess.call(['python3.8', "errors_pie_heatmap.py", input_dir   , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 
 			shutil.make_archive(output_dir + "/metaMutationalSignatures_results", 'zip', input_dir)
