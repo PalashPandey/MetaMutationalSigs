@@ -86,6 +86,9 @@ if __name__ == '__main__':
 			runsigflow = arguments["--sigflow"]
 			runsigfit = arguments["--sigfit"]
 			runDeconstructSigs = arguments["--deconstructSigs"]
+			if output_dir ==  None:
+				output_dir = ""
+
 			if genome_ref ==  None:
 				genome_ref = "GRCh37"
 			if runMutationalPatterns ==  False:
