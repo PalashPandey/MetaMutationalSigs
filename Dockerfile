@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential python3.6 python3-pip python3-setuptools python3-dev
 
-RUN apt-get -y install software-properties-common libcurl4-openssl-dev libssl-dev libxml2-dev openssl-devel
+RUN apt-get -y install software-properties-common libcurl4-openssl-dev libssl-dev libxml2-dev libnode-dev
 
 # apt-get purge r-base* r-recommended r-cran-*
 # apt autoremove
