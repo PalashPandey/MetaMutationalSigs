@@ -18,7 +18,7 @@ ENV DOWNLOAD_STATIC_LIBV8 1
 # RUN apt update
 # RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
 RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN apt install r-base r-base-core r-recommended r-base-dev
+RUN apt install -y r-base r-base-core r-recommended r-base-dev
 RUN add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+
 RUN apt update 
 RUN apt install -y r-cran-ggplot2 r-cran-devtools r-cran-roxygen2
