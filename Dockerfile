@@ -33,7 +33,7 @@ RUN python3.8 install_sigprofilerMatrixGenerator.py
 # install.packages("V8")
 # install.packages("devtools", dependencies= TRUE)
 
-RUN Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);install.packages("V8");install.packages("devtools", dependencies= TRUE);devtools::install_github("kgori/sigfit",build_opts = c("--no-resave-data", "--no-manual"));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))"
+RUN Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);install.packages("devtools", dependencies= TRUE);install.packages("V8");devtools::install_github("kgori/sigfit",build_opts = c("--no-resave-data", "--no-manual"));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))"
 
 EXPOSE 5001
 ENTRYPOINT ["python3.8"]
