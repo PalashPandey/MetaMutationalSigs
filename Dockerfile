@@ -2,14 +2,23 @@ FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base r-cran-randomforest python3.6 python3-pip python3-setuptools python3-dev
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential python3.6 python3-pip python3-setuptools python3-dev
 
+RUN apt-get -y install software-properties-common libcurl4-openssl-dev libssl-dev libxml2-dev openssl-devel
 
-RUN apt-get -y install libcurl4-openssl-dev libssl-dev libxml2-dev
+# apt-get purge r-base* r-recommended r-cran-*
+# apt autoremove
+# apt update
 
-RUN  apt-get update \
-  && apt-get install -y wget \
-  && rm -rf /var/lib/apt/lists/*
+# add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
+
+# gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+# apt install r-base r-base-core r-recommended r-base-dev
+# add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+# apt update
+
+# apt install r-cran-ggplot2 r-cran-devtools r-cran-roxygen2
+
 
 
 ADD ./ /app 
@@ -18,16 +27,13 @@ WORKDIR /app
 RUN pip3 install -r requirements.txt
 RUN python3.8 install_sigprofilerMatrixGenerator.py
 
-RUN Rscript -e "install.packages('data.table');install.packages('BiocManager', repos = 'https://cloud.r-project.org');BiocManager::install(c( 'devtools' , 'deconstructSigs' , 'MutationalPatterns' , 'remotes', 'data.table', 'dplyr', 'purrr', 'tidyr', 'furrr', 'Rcpp', 'cowplot', 'NMF', 'ggpubr', 'cli', 'reticulate', 'roxygen2'))"
-RUN Rscript -e "install.packages('devtools')"
-RUN Rscript -e "library(devtools)"
+# update.packages(ask = FALSE, checkBuilt = TRUE)
 
-# RUN R -e "BiocManager::install('BSgenome')" && \
-#     R -e "BiocManager::install('BSgenome.Hsapiens.UCSC.hg19')" 
+# install.packages("devtools", dependencies= TRUE)
+# remotes::install_github("kgori/sigfit")
 
-RUN R -e "install.packages('sigminer', dependencies = TRUE)"
+# RUN Rscript -e "install.packages("devtools");devtools::install_github("kgori/sigfit",build_opts = c("--no-resave-data", "--no-manual"));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))"
 
-RUN Rscript -e "library(reticulate);use_python('/usr/bin/python3.8');library(devtools);install_github('AlexandrovLab/SigProfilerMatrixGeneratorR');library(SigProfilerMatrixGeneratorR)"
 
 # ENTRYPOINT ["python3.8" , "metaMutatationalSignatures.py"]
 # CMD [ "--help" ]

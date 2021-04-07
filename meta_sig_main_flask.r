@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
-setwd("../")
+# setwd("../")
+setwd("../app/")
 getwd()
 library(MutationalPatterns)
 library(deconstructSigs)
@@ -12,7 +13,7 @@ data("cosmic_signatures_v2")
 SBS_signatures <- readRDS("data/SBS_signatures.rds")$db
 DBS_signatures <- readRDS("data/DBS_signatures.rds")$db
 ID_signatures <- readRDS("data/ID_signatures.rds")$db
-legacy_signatures <- readRDS("data/legacy_signatures.rds")$db
+legacy_signatures <- readRDS("data/legacy_signatures.RDs")$db
 
 ######### Installation and setup
 FrobeniusNorm <- function(M, P, E) {
