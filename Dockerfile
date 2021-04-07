@@ -6,11 +6,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
 RUN apt-get -y install software-properties-common libcurl4-openssl-dev libssl-dev libxml2-dev libnode-dev vim-tiny
 
-# apt-get purge r-base* r-recommended r-cran-*
-# apt autoremove
-# apt update
+# apt-get purge -y r-base* r-recommended r-cran-*
+# apt autoremove -y 
+# apt update -y 
 
-ENV DOWNLOAD_STATIC_LIBV8=1
+ENV DOWNLOAD_STATIC_LIBV8 1
+
+# DOWNLOAD_STATIC_LIBV8=1
 
 RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
