@@ -22,7 +22,7 @@ RUN apt install -y r-base r-base-core r-recommended r-base-dev
 RUN add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+
 RUN apt update 
 RUN apt-get autoclean
-RUN apt install -y r-cran-ggplot2 r-cran-devtools r-cran-roxygen2
+RUN apt-get install -y r-cran-ggplot2 r-cran-devtools r-cran-roxygen2
 
 
 
