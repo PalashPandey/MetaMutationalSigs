@@ -13,6 +13,8 @@ ENV DOWNLOAD_STATIC_LIBV8 1
 
 
 # DOWNLOAD_STATIC_LIBV8=1
+ADD ./ /app 
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential python3.6 python3-pip python3-setuptools python3-dev && \
     apt update && apt-get -y install software-properties-common libcurl4-openssl-dev libssl-dev libxml2-dev libnode-dev vim-tiny wget && \
@@ -25,8 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
     Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);devtools::install_github('kgori/sigfit',build_opts = c('--no-resave-data', '--no-manual'));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))" && \
     pip3 install -r requirements.txt && python3.8 install_sigprofilerMatrixGenerator.py
 
-ADD ./ /app 
-WORKDIR /app
 
 
 # update.packages(ask = FALSE, checkBuilt = TRUE)
