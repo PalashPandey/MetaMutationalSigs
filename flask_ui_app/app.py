@@ -71,14 +71,14 @@ def progress():
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/uploads")
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['Rscript', "meta_sig_main_flask.r", "./flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['Rscript', "../meta_sig_main_flask.r", "/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['python3.8', "./errors_pie_heatmap.py", "flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['python3.8', "../errors_pie_heatmap.py", "/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			shutil.make_archive("metaMutationalSignatures_results", 'zip', "flask_ui_app/uploads")
-			shutil.rmtree("flask_ui_app/uploads")
+			shutil.make_archive("metaMutationalSignatures_results", 'zip', "/uploads")
+			shutil.rmtree("/uploads")
 			if not os.path.isdir(app.config['UPLOAD_FOLDER']):
 				os.mkdir(app.config['UPLOAD_FOLDER'])
 		else:
@@ -91,7 +91,7 @@ def dummy():
 
 @app.route('/download')
 def download():
-	return send_file("flask_ui_app/uploads" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
+	return send_file("/uploads" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
 
 
 if __name__ == "__main__":

@@ -56,14 +56,17 @@ Options:
 	--sigfit                   run sigfit [default: TRUE].  
 	--deconstructSigs                   run deconstructSigs [default: TRUE].  
 
-  __  __      _        __  __       _        _   _                   _  _____ _
- |  \/  |    | |      |  \/  |     | |      | | (_)                 | |/ ____(_)
- | \  / | ___| |_ __ _| \  / |_   _| |_ __ _| |_ _  ___  _ __   __ _| | (___  _  __ _ ___
- | |\/| |/ _ \ __/ _` | |\/| | | | | __/ _` | __| |/ _ \| '_ \ / _` | |\___ \| |/ _` / __|
- | |  | |  __/ || (_| | |  | | |_| | || (_| | |_| | (_) | | | | (_| | |____) | | (_| \__ \
- |_|  |_|\___|\__\__,_|_|  |_|\__,_|\__\__,_|\__|_|\___/|_| |_|\__,_|_|_____/|_|\__, |___/
-																				 __/ |
-																				|___/
+
+
+   _____          __             _____          __          __  .__                     .__    _________.__              
+  /     \   _____/  |______     /     \  __ ___/  |______ _/  |_|__| ____   ____ _____  |  |  /   _____/|__| ____  ______
+ /  \ /  \_/ __ \   __\__  \   /  \ /  \|  |  \   __\__  \\   __\  |/  _ \ /    \\__  \ |  |  \_____  \ |  |/ ___\/  ___/
+/    Y    \  ___/|  |  / __ \_/    Y    \  |  /|  |  / __ \|  | |  (  <_> )   |  \/ __ \|  |__/        \|  / /_/  >___ \ 
+\____|__  /\___  >__| (____  /\____|__  /____/ |__| (____  /__| |__|\____/|___|  (____  /____/_______  /|__\___  /____  >
+        \/     \/          \/         \/                 \/                    \/     \/             \/   /_____/     \/ 
+
+
+
 Name   :       MetaMutationalSigs
 Link   :       https://github.com/PalashPandey/MetaMutationalSigs
 Doc    :       https://github.com/PalashPandey/MetaMutationalSigs
@@ -87,6 +90,9 @@ if __name__ == '__main__':
 			runsigflow = arguments["--sigflow"]
 			runsigfit = arguments["--sigfit"]
 			runDeconstructSigs = arguments["--deconstructSigs"]
+			if input_dir ==  None:
+				input_dir = "input_vcf_dir"
+
 			if output_dir ==  None:
 				output_dir = ""
 
