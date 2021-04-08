@@ -349,7 +349,6 @@ runSBS = function(ref_genome = "hg19",
   ########### DeconstructSigs
   if (deconstructSigs){
     sbs_signatures = t(SBS_signatures)
-    colnames(sbs_signatures) = colnames(signatures.exome.cosmic.v3.may2019)
     sbs_signatures = as.data.frame(sbs_signatures)
     sbs_signatures <- sbs_signatures[!row.names(sbs_signatures)%in%sbs_dropped_signatures,]
     v2_input_matrices_list <- mut_mat_input

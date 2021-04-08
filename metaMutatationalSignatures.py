@@ -84,7 +84,7 @@ if __name__ == '__main__':
 		else:
 			from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
 			input_dir = arguments["--i"]
-			output_dir = arguments["-o"]
+			output_dir = arguments["--output"]
 			genome_ref = arguments["--genome"]
 			runMutationalPatterns = arguments["--mutationalSignatures"]
 			runsigflow = arguments["--sigflow"]
@@ -119,8 +119,8 @@ if __name__ == '__main__':
 				runDeconstructSigs = "FALSE"
 
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs", genome_ref , input_dir)
-			subprocess.call(['R', "CMD",  "BATCH" ,  "meta_sig_main_flask.r", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
+			subprocess.call(['Rscript' ,  "meta_sig_main_flask.r", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 			subprocess.call(['python3.8', "errors_pie_heatmap.py", input_dir   , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 
 			shutil.make_archive(output_dir + "/metaMutationalSignatures_results", 'zip', input_dir)
-			shutil.rmtree(input_dir)
+			# shutil.rmtree(input_dir)
