@@ -1,8 +1,0 @@
-^Meta$
-^doc$
-cleanup*
-^\.travis\.yml$
-^.*\.Rproj$
-^\.Rproj\.user$
-^packrat/
-^\.Rprofile$

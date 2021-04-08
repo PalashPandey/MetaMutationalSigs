@@ -50,7 +50,9 @@ def upload_file():
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+				print(filename)
 		# time.sleep(10) 
+		print("files succcessfully uploaded ")
 		return redirect('/upload')
 
 @app.route('/upload')
@@ -69,7 +71,7 @@ def progress():
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/uploads")
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['Rscript', "meta_sig_main_flask.R", "./flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['Rscript', "meta_sig_main_flask.r", "./flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
 			subprocess.call(['python3.8', "./errors_pie_heatmap.py", "flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
