@@ -31,7 +31,7 @@ Discussion:
 
 The massive increase in the number of software packages has made managing dependencies quite burdensome, this coupled with the absence of any standard data formats for signature matrices can make mutational signature analysis difficult and hard to reproduce. Our package provides and easy way of performing these tasks that takes care of the more mundane aspects of the analysis while ensuring reproducibility. 
 
-We also propose 
+## Install Using Docker
 
 Input: 
 VCF files/ MAF files. 
