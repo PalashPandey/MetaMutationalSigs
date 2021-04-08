@@ -24,10 +24,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
     gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
     apt install -y r-base r-base-core r-recommended r-base-dev && \
     add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+ && apt-get install -f -y r-cran-ggplot2 r-cran-devtools r-cran-roxygen2 && \
-    # Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);devtools::install_github('kgori/sigfit',build_opts = c('--no-resave-data', '--no-manual'));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))" && \
-    pip3 install -r requirements.txt 
-    # && \ 
-    # python3.8 install_sigprofilerMatrixGenerator.py
+    Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);devtools::install_github('kgori/sigfit',build_opts = c('--no-resave-data', '--no-manual'));install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))" && \
+    pip3 install -r requirements.txt  && \ 
+    python3.8 install_sigprofilerMatrixGenerator.py
 
 
 
