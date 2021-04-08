@@ -33,6 +33,14 @@ The massive increase in the number of software packages has made managing depend
 
 ## Install Using Docker
 
+docker pull pp535/metamutationalsigs
+
+docker run --rm -p 5001:5001 pp535/metamutationalsigs --browser
+
+And then go to your browser at http://localhost:5001/ for the browser user interface.
+
+docker run --rm -p 5001:5001 pp535/metamutationalsigs --browser
+
 Input: 
 VCF files/ MAF files. 
 

@@ -76,6 +76,7 @@ if __name__ == '__main__':
 		arguments = docopt(__doc__, version='MetaMutationalSigs 1.0')
 		print(arguments)
 		if arguments["--browser"]:
+			os.chdir("flask_ui_app")
 			subprocess.call(['python3.8', "flask_ui_app/app.py"])
 		else:
 			from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
