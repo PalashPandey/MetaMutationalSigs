@@ -1,7 +1,5 @@
 #!/usr/bin/env Rscript
 # setwd("../")
-setwd("../app/")
-getwd()
 library(MutationalPatterns)
 library(deconstructSigs)
 library(sigfit)
@@ -10,10 +8,10 @@ library(dplyr)
 library(ggpubr)
 library("devtools")
 data("cosmic_signatures_v2")
-SBS_signatures <- readRDS("data/SBS_signatures.rds")$db
-DBS_signatures <- readRDS("data/DBS_signatures.rds")$db
-ID_signatures <- readRDS("data/ID_signatures.rds")$db
-legacy_signatures <- readRDS("data/legacy_signatures.RDs")$db
+SBS_signatures <- readRDS("/app/data/SBS_signatures.rds")$db
+DBS_signatures <- readRDS("/app/data/DBS_signatures.rds")$db
+ID_signatures <- readRDS("/app/data/ID_signatures.rds")$db
+legacy_signatures <- readRDS("/app/data/legacy_signatures.RDs")$db
 
 ######### Installation and setup
 FrobeniusNorm <- function(M, P, E) {
@@ -588,7 +586,10 @@ input_directory <- args[1]
 genome_build = args[2]
 # genome_build = "GRCh37"
 print(input_directory)
+getwd()
+
 setwd(input_directory)
+getwd()
 
 if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
   data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))

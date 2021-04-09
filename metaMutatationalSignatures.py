@@ -91,10 +91,10 @@ if __name__ == '__main__':
 			runsigfit = arguments["--sigfit"]
 			runDeconstructSigs = arguments["--deconstructSigs"]
 			if input_dir ==  None:
-				input_dir = "input_vcf_dir"
+				input_dir = "/app/input_vcf_dir"
 
 			if output_dir ==  None:
-				output_dir = ""
+				output_dir = "/app/input_vcf_dir"
 
 			if genome_ref ==  None:
 				genome_ref = "GRCh37"
@@ -122,5 +122,16 @@ if __name__ == '__main__':
 			subprocess.call(['Rscript' ,  "meta_sig_main_flask.r", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 			subprocess.call(['python3.8', "errors_pie_heatmap.py", input_dir   , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 
+			shutil.rmtree(input_dir + "/input")
+			shutil.rmtree(input_dir + "/logs")
+			shutil.rmtree(input_dir + "/output")
+
+			files_in_directory = os.listdir(input_dir)
+
+			filtered_files = [file for file in files_in_directory if file.endswith(".vcf")]
+
+
 			shutil.make_archive(output_dir + "/metaMutationalSignatures_results", 'zip', input_dir)
-			# shutil.rmtree(input_dir)
+
+			shutil.rmtree(input_dir + "/MetaMutationalResults")
+

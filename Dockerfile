@@ -1,4 +1,4 @@
-FROM pp535/metamutationalresults_0:latest
+FROM pp535/metamutationalresults_1:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -16,12 +16,12 @@ WORKDIR /app
 #     apt install -y r-base r-base-core r-recommended r-base-dev && \
 #     add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+ && apt-get install -f -y r-cran-ggplot2 r-cran-devtools r-cran-roxygen2
     
-RUN Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);install.packages('rstan');install.packages('V8');devtools::install_github('kgori/sigfit',build_opts = c('--no-resave-data', '--no-manual'))"
+# RUN Rscript -e "update.packages(ask = FALSE, checkBuilt = TRUE);install.packages('rstan');install.packages('V8');devtools::install_github('kgori/sigfit',build_opts = c('--no-resave-data', '--no-manual'))"
 
-RUN Rscript -e "install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))"
+# RUN Rscript -e "install.packages('BiocManager');BiocManager::install(dependencies = TRUE , c('MutationalPatterns', 'deconstructSigs' , 'ShixiangWang/sigminer@v2.0.0' ,  'dplyr', 'tidyr', 'ggpubr'))"
 
-RUN pip3 install -r requirements.txt  && \ 
-    python3.8 install_sigprofilerMatrixGenerator.py
+# RUN pip3 install -r requirements.txt  && \ 
+#     python3.8 install_sigprofilerMatrixGenerator.py
 
 
 # update.packages(ask = FALSE, checkBuilt = TRUE)
@@ -32,4 +32,3 @@ RUN pip3 install -r requirements.txt  && \
 
 EXPOSE 5001
 ENTRYPOINT ["python3.8" , "metaMutatationalSignatures.py"]
-# CMD [ "metaMutatationalSignatures.py" ]

@@ -1,4 +1,4 @@
-import os, time, subprocess, shutil, glob
+import os, time, subprocess, shutil, glob, zipfile
 from flask import Flask, flash, request, redirect, render_template, Response, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
@@ -60,6 +60,12 @@ def render_after_upload():
 	return render_template('upload.html')
 
 
+def zipdir(path, ziph):
+    # ziph is zipfile handle
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            ziph.write(os.path.join(root, file))
+
 
 @app.route('/progress')
 def progress():
@@ -67,20 +73,39 @@ def progress():
 		print(mutationalPattern , sigflow, sigfit, deconstructSigs)
 		x = 1
 		yield "data:" + str(x) + "\n\n"
-		if glob.glob("./uploads/*.vcf"):
-			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/uploads")
+		if glob.glob("/app/flask_ui_app/uploads/*.vcf"):
+			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/app/flask_ui_app/uploads")
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['Rscript', "../meta_sig_main_flask.r", "/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['Rscript', "../meta_sig_main_flask.r", "/app/flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['python3.8', "../errors_pie_heatmap.py", "/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
-			x = x + 33
-			yield "data:" + str(x) + "\n\n"
-			shutil.make_archive("metaMutationalSignatures_results", 'zip', "/uploads")
-			shutil.rmtree("/uploads")
+			subprocess.call(['python3.8', "../errors_pie_heatmap.py", "/app/flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])
+
+			shutil.rmtree("/app/flask_ui_app/uploads" + "/input")
+			shutil.rmtree("/app/flask_ui_app/uploads" + "/logs")
+			shutil.rmtree("/app/flask_ui_app/uploads" + "/output")
+
+			files_in_directory = os.listdir("/app/flask_ui_app/uploads")
+
+			filtered_files = [file for file in files_in_directory if file.endswith(".vcf")]
+
+			for file in filtered_files:
+				path_to_file = os.path.join("/app/flask_ui_app/uploads", file)
+				os.remove(path_to_file)
+
+			zipf = zipfile.ZipFile("/app/flask_ui_app/metaMutationalSignatures_results.zip", 'w', zipfile.ZIP_DEFLATED)
+			os.chdir("/app/flask_ui_app/")
+			zipdir("./uploads/", zipf)
+			zipf.close()
+
+
+			shutil.rmtree("/app/flask_ui_app/uploads")
 			if not os.path.isdir(app.config['UPLOAD_FOLDER']):
 				os.mkdir(app.config['UPLOAD_FOLDER'])
+			x = x + 33
+			yield "data:" + str(x) + "\n\n"
+
 		else:
 			pass
 	return Response(generate(), mimetype= 'text/event-stream')
@@ -91,7 +116,7 @@ def dummy():
 
 @app.route('/download')
 def download():
-	return send_file("/uploads" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
+	return send_file("/app/flask_ui_app/" + "/metaMutationalSignatures_results.zip", attachment_filename="metaMutationalSignatures_results.zip")
 
 
 if __name__ == "__main__":
