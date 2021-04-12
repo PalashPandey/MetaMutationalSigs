@@ -10,6 +10,9 @@ Mutational signature analysis is very active and important area of interest. The
 
 We created this package *MetaMutationalSigs* to facilitate comprehensive mutational signature analysis by creating a wrapper for different packages and providing a standard format for their outputs so that they can be effectively compared. We have also standardized the input formats accepted by various packages so ease interoperability. We also create standard visualizations for the results of all packages to ensure easy analysis. Our software is easy to install and use through Docker ,a package manager that automates the dependencies. 
 
+## See our preprint here: 
+
+#### If you have questions, you can contact the author, Palash Pandey at pp535@drexel.edu OR PI Gail Rosen at eesi.pogo@gmail.com
 
 ## Install Using Docker
 
