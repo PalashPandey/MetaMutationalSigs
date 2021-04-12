@@ -1,7 +1,9 @@
 # MetaMutationalSigs
 ![Logo](flask_ui_app/static/cover_photo.png) <br>
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/pp535/metamutationalsigs) ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/pp535/metamutationalsigs/latest)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/pp535/metamutationalsigs)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/pp535/metamutationalsigs) 
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/pp535/metamutationalsigs/latest)
 ![Docker Pulls](https://img.shields.io/docker/pulls/pp535/metamutationalsigs)
 
 Mutational signature analysis is very active and important area of interest. There are several packages available now for mutational signature analysis and they all use different approaches and give nontrivially different results. Because of the differences in their results, it is important for researchers to survey the available tools and make choose the one that best suits their application. There is a need for software that can aggregate the results from different packages and present them in a user friendly way so as to facilitate effective comparison. 
@@ -29,20 +31,20 @@ We have browser UI available as well: <br>
 
 Just replace ``C:\Users\...full_path...\docker_input_test/`` with absolute path to your input directory that has VCF files. Then go to your browser at http://localhost:5001/ for the browser user interface.
 
-![Image of Yaktocat](/markdown_images/web_ui_1.jpg) <br>
+![web_ui_1](/markdown_images/web_ui_1.jpg) <br>
 
 Once you select your *VCF file directory and the tools that you would like to run*, you will see a progress bar and when the progress bar reaches 100%, you can download the results as a zip file using the download results button. <br>
-![Image of Yaktocat](/markdown_images/web_ui_2.jpg) <br>
+![web_ui_2](/markdown_images/web_ui_2.jpg) <br>
 
 
 ## Output: 
 
 The output is returned as a compressed directory called `MetaMutationalResults`. Once uncompressed, this looks below. Directory `MetaMutationalResults` has the relevant results. 
 
-![Image of Yaktocat](/markdown_images/fs_level_1.jpg) <br>
+![result files](/markdown_images/fs_level_1.jpg) <br>
 
 Inside `MetaMutationalResults`, we can find a folder for each tool that was selected.
-![Image of Yaktocat](/markdown_images/fs_level_2.jpg) <br>
+![result files](/markdown_images/fs_level_2.jpg) <br>
 
 Here is a summary of the files generated: 
 

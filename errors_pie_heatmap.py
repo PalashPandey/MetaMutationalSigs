@@ -117,7 +117,6 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             if deconstructSigs:
                 f.write(deconstructSigs_legacy_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
         distance_df_list = []
-        print()
         for i in range(legacy_df_list[0].shape[0]):
             temp_df = []
             for index , j in enumerate(legacy_df_list):
@@ -239,7 +238,6 @@ def run_sbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             distance_df_list.append(_df)
         fig = plt.figure(figsize=(30, 30))
         fig.subplots_adjust(hspace=2, wspace=2)
-        print(rows, columns)
         for i in range(len(distance_df_list)):  
             df = distance_df_list[i]
             df_ = pd.DataFrame(squareform(pdist(df.iloc[:, 1:])), columns=df["sample"].unique(), index=df["sample"].unique())
@@ -460,9 +458,6 @@ deconstructSigs_input =  sys.argv[5] == "TRUE"
 
 
 
-print(sigfit_input, sigflow_input, deconstructSigs_input , mutationalPattern_input)
-print("sigfit_input, sigflow_input, deconstructSigs_input , mutationalPattern_input")
-print(sys.argv[1] + "/output/SBS/MetaMutationalSigs.SBS96.all")
 if os.path.exists(sys.argv[1] + "/output/SBS/MetaMutationalSigs.SBS96.all"):
     run_legacy(sigfit_input, sigflow_input, deconstructSigs_input , mutationalPattern_input )
     run_sbs(sigfit_input, sigflow_input, deconstructSigs_input , mutationalPattern_input)

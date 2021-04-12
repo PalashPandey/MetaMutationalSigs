@@ -111,7 +111,6 @@ whichSignaturesLocal = function(tumor.ref = NA,
     which(signatures[, zero.contexts, drop = FALSE] >= 0.2, arr.ind = T)
   signatures      <-
     signatures[which(!rownames(signatures) %in% rownames(corr.sigs)), , drop = FALSE]
-  #print(paste(rownames(corr.sigs), " not considered in the analysis.", sep = ""))
   
   #Set the weights matrix to 0
   weights         <-
@@ -132,18 +131,13 @@ whichSignaturesLocal = function(tumor.ref = NA,
   num <- 0
   while (error_diff > error_threshold) {
     num        <- num + 1
-    #print(num)
     error_pre  <- getError(tumor, signatures, w)
     if (error_pre == 0) {
       break
     }
-    #print(w)
     w          <-
       updateW_GR(tumor, signatures, w, signatures.limit = signatures.limit)
     error_post <- getError(tumor, signatures, w)
-    #print(paste("old_error = ", error_pre, sep = ""))
-    #print(paste("new_error = ", error_post, sep = ""))
-    #print(w)
     error_diff <- (error_pre - error_post) / error_pre
   }
   
@@ -182,11 +176,8 @@ runLegacy = function(ref_genome = "hg19",
                       mut_mat_input, mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE) {
   mut_mat <- mut_mat_input
   mut_mat <- t(mut_mat)
-  print(typeof(mut_mat) )
-  print(typeof(mut_mat) )
 
   ####### MutationalPatteTRUE
-  print(mutationalPatterns)
   if (mutationalPatterns){
     signatures_legacy = as.matrix(legacy_signatures)
     # Strict signature fitting iteratively reduces the number of signatures used for refitting by removing the signature with least contribution
@@ -195,7 +186,6 @@ runLegacy = function(ref_genome = "hg19",
     mut_patterns_strict_legacy_errors <- as.matrix.data.frame(t(mut_mat - fit_res_strict_legacy$reconstructed))
     mut_patterns_strict_legacy_errors <-apply(mut_patterns_strict_legacy_errors  , 1, FrobeniusNorm_mutational_patterns)
     dir.create("./mutational_patterns_results")
-    print(getwd())
     write.csv(t(fit_res_strict_legacy$contribution),"./mutational_patterns_results/legacy_strict_sample_exposures.csv" )
     write.csv(mut_patterns_strict_legacy_errors,row.names = colnames(mut_mat),"./mutational_patterns_results/legacy_strict_sample_errors.csv")
     # This is traditional decomposition
@@ -611,11 +601,8 @@ legacy_signatures <- readRDS("/app/data/legacy_signatures.RDs")$db
 
 
 # genome_build = "GRCh37"
-print(input_directory)
-getwd()
 
 setwd(input_directory)
-getwd()
 
 if ( file.exists("output/SBS/MetaMutationalSigs.SBS96.all")) {
   data_matrix_stratton =  as.data.frame(read.csv("output/SBS/MetaMutationalSigs.SBS96.all" ,sep = "\t"))
