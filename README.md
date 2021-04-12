@@ -1,4 +1,4 @@
-## MetaMutationalSigs
+# MetaMutationalSigs
 ![Logo](flask_ui_app/static/cover_photo.png) <br>
 
 Mutational signature analysis is very active and important area of interest. There are several packages available now for mutational signature analysis and they all use different approaches and give nontrivially different results. Because of the differences in their results, it is important for researchers to survey the available tools and make choose the one that best suits their application. There is a need for software that can aggregate the results from different packages and present them in a user friendly way so as to facilitate effective comparison. 
@@ -10,7 +10,7 @@ We created this package *MetaMutationalSigs* to facilitate comprehensive mutatio
 
 docker pull pp535/metamutationalsigs
 
-### Input: 
+## Input: 
 VCF files.
 
 To run *metamutationalsigs* without using *sigflow* and *sigfit* on the data from your VCF file directory `C:\Users\...full_path...\docker_input_test`.  Just replace ``C:\Users\...full_path...\docker_input_test/`` with absolute path to your input directory that has VCF files. The results will be in a zipped file in your input directory.<br> 
@@ -29,7 +29,7 @@ Once you select your *VCF file directory and the tools that you would like to ru
 ![Image of Yaktocat](/markdown_images/web_ui_2.jpg) <br>
 
 
-### Output: 
+## Output: 
 
 The output is returned as a compressed directory called `MetaMutationalResults`. Once uncompressed, this looks below. Directory `MetaMutationalResults` has the relevant results. 
 
@@ -55,7 +55,26 @@ Here is a summary of the files generated:
 |toolname_results\sbs_sample_error.csv          |csv   |Data used to create the bar plot.                                                                    |
 |toolname_results\sbs_sample_contribution.csv   |csv   |Data used to create heatmap and pie chart.                                                           |
 
+## FAQs / Resources:
 
+### Where can I find the tools used ? 
+- MutatitionalPatterns https://bioconductor.org/packages/release/bioc/html/MutationalPatterns.html
+- Sigflow/ Sigminer https://github.com/ShixiangWang/sigflow
+- Sigfit https://github.com/kgori/sigfit
+- DeconstructSigs https://github.com/raerose01/deconstructSigs 
+
+### Additional reading: review paper 
+
+Omichessan, H., Severi, G., & Perduca, V. (2019). Computational tools to detect signatures of mutational processes in DNA from tumours: A review and empirical comparison of performance. PLOS ONE, 14(9), e0221235. https://doi.org/10.1371/journal.pone.0221235  
+
+
+### What is the format for my files? 
+
+Your files need to be in VCF format. For more information https://www.internationalgenome.org/wiki/Analysis/vcf4.0/
+
+### Where is my analysis running? 
+
+All analysis is run locally. No data leaves your computer. The web browser user interface is also running locally on your computer, so you can feel free to analyze your protected data.
 
 ## Changelog
 - V1 - COSMIC reference signatures V3.1 June 2020

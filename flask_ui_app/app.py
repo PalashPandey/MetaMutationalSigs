@@ -2,6 +2,7 @@ import os, time, subprocess, shutil, glob, zipfile
 from flask import Flask, flash, request, redirect, render_template, Response, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
+from SigProfilerMatrixGenerator import install as genInstall
 
 app=Flask(__name__)
 
@@ -17,7 +18,7 @@ mutationalPattern = "FALSE"
 sigflow = "FALSE"
 sigfit = "FALSE"
 deconstructSigs = "FALSE"
-
+genome_ref =  "GRCh37"
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -34,7 +35,23 @@ def upload_file():
 			return redirect(request.url)
 		files = request.files.getlist('files[]')
 		whichtorun_list = request.form.getlist('whichToRun')
-		if "runMutationalPatterns" in whichtorun_list   :
+		global genome_ref
+		genome_ref = request.form["genome"]
+		print(genome_ref)
+		if genome_ref ==  "GRCh38":
+			genInstall.install('GRCh38', rsync=False, bash=True)
+		if genome_ref ==  "GRCm37":
+			genInstall.install('GRCm37', rsync=False, bash=True)
+		if genome_ref ==  "GRCm38.p6":
+			genInstall.install('GRCm38.p6', rsync=False, bash=True)
+		if genome_ref ==  "Rnor_6.0":
+			genInstall.install('Rnor_6.0', rsync=False, bash=True)
+		if runMutationalPatterns ==  False:
+			runMutationalPatterns = "TRUE"
+		if runMutationalPatterns ==  True:
+			runMutationalPatterns = "FALSE"
+
+		if "runMutationalPatterns" in whichtorun_list:
 			global mutationalPattern
 			mutationalPattern = "TRUE"   
 		if "runSigflow" in whichtorun_list   :
@@ -70,14 +87,14 @@ def zipdir(path, ziph):
 @app.route('/progress')
 def progress():
 	def generate():
-		print(mutationalPattern , sigflow, sigfit, deconstructSigs)
+		print(genome_ref , mutationalPattern , sigflow, sigfit, deconstructSigs)
 		x = 1
 		yield "data:" + str(x) + "\n\n"
 		if glob.glob("/app/flask_ui_app/uploads/*.vcf"):
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs",'GRCh37' , "/app/flask_ui_app/uploads")
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
-			subprocess.call(['Rscript', "../meta_sig_main_flask.r", "/app/flask_ui_app/uploads" , "GRCh37" , mutationalPattern , sigflow, sigfit, deconstructSigs])
+			subprocess.call(['Rscript', "../meta_sig_main_flask.r", "/app/flask_ui_app/uploads" , genome_ref , mutationalPattern , sigflow, sigfit, deconstructSigs])
 			x = x + 33
 			yield "data:" + str(x) + "\n\n"
 			subprocess.call(['python3.8', "../errors_pie_heatmap.py", "/app/flask_ui_app/uploads"   , mutationalPattern , sigflow, sigfit, deconstructSigs])

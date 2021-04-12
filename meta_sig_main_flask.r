@@ -7,11 +7,6 @@ library(sigminer)
 library(dplyr)
 library(ggpubr)
 library("devtools")
-data("cosmic_signatures_v2")
-SBS_signatures <- readRDS("/app/data/SBS_signatures.rds")$db
-DBS_signatures <- readRDS("/app/data/DBS_signatures.rds")$db
-ID_signatures <- readRDS("/app/data/ID_signatures.rds")$db
-legacy_signatures <- readRDS("/app/data/legacy_signatures.RDs")$db
 
 ######### Installation and setup
 FrobeniusNorm <- function(M, P, E) {
@@ -584,6 +579,33 @@ runDBS = function(ref_genome = "hg19",
 args = commandArgs(trailingOnly=TRUE)
 input_directory <- args[1]
 genome_build = args[2]
+
+data("cosmic_signatures_v2")
+if (genome_build == "GRCh37"){
+SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_GRCh37.txt")
+DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_GRCh37.txt")
+}
+if (genome_build == "GRCh38"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_GRCh38.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_GRCh38.txt")
+}
+if (genome_build == "mm9"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm9.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm9.txt")
+}
+if (genome_build == "mm10"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm10.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm10.txt")
+}
+if (genome_build == "rn6"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_rn6.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_rn6.txt")
+}
+ID_signatures <- read.delim("/app/data/COSMIC_v3.2_ID_GRCh37.txt")
+legacy_signatures <- read.delim("/app/data/legacy_signatures.RDs")
+
+
+
 # genome_build = "GRCh37"
 print(input_directory)
 getwd()
