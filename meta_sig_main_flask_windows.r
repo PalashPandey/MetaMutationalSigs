@@ -7,12 +7,6 @@ library(sigminer)
 library(dplyr)
 library(ggpubr)
 library("devtools")
-data("cosmic_signatures_v2")
-SBS_signatures <- readRDS("data/SBS_signatures.rds")$db
-DBS_signatures <- readRDS("data/DBS_signatures.rds")$db
-ID_signatures <- readRDS("data/ID_signatures.rds")$db
-legacy_signatures <- readRDS("data/legacy_signatures.rds")$db
-
 ######### Installation and setup
 FrobeniusNorm <- function(M, P, E) {
   sqrt(sum((M - P %*% E) ^ 2))
@@ -297,13 +291,14 @@ runSBS = function(ref_genome = "hg19",
   ####### MutationalPatterns 
   if (mutationalPatterns){
     mut_mat <- t(mut_mat)
-    ref_genome <- ref_genome
     # COSMIC 2019 SBS signatures
     # Strict signature fitting iteratively reduces the number of signatures used for refitting by removing the signature with least contribution
     signatures = t(SBS_signatures)
     signatures <- signatures[!row.names(signatures)%in%sbs_dropped_signatures,]
     signatures = as.matrix(t(signatures))
     rownames(signatures) = NULL
+    print(typeof(mut_mat))
+    print(typeof(signatures))
     strict_refit <- fit_to_signatures_strict(mut_mat, signatures, max_delta = 0.004)
     fit_res_strict <- strict_refit$fit_res
     mut_patterns_strict_errors <-    as.matrix.data.frame(t(mut_mat - fit_res_strict$reconstructed))
@@ -584,10 +579,38 @@ runDBS = function(ref_genome = "hg19",
 # Parsing input
 args = commandArgs(trailingOnly=TRUE)
 input_directory <- args[1]
+input_directory <- "../docker_input_test/"
 genome_build = args[2]
-# genome_build = "GRCh37"
+genome_build = "GRCh37"
 print(input_directory)
 setwd(input_directory)
+
+matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs", "GRCh37" , "../docker_input_test/")
+
+if (genome_build == "GRCh37"){
+  SBS_signatures <- read.csv( sep = "," , colClasses=c("Type"="character"),   "../metaSignatures/data/COSMIC_v3.2_SBS_GRCh37.txt")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../metaSignatures/data/COSMIC_v3.2_DBS_GRCh37.txt")
+}
+if (genome_build == "GRCh38"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_GRCh38.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_GRCh38.txt")
+}
+if (genome_build == "mm9"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm9.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm9.txt")
+}
+if (genome_build == "mm10"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm10.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm10.txt")
+}
+if (genome_build == "rn6"){
+  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_rn6.txt")
+  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_rn6.txt")
+}
+ID_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../metaSignatures/data/COSMIC_v3.2_ID_GRCh37.txt")
+legacy_signatures <- readRDS("../metaSignatures/data/legacy_signatures.RDs")$db
+
+
 
 if ( file.exists("output\\SBS\\MetaMutationalSigs.SBS96.all")) {
   data_matrix_stratton =  as.data.frame(read.csv("output\\SBS\\MetaMutationalSigs.SBS96.all" ,sep = "\t"))
@@ -628,10 +651,10 @@ input_sigfit = as.logical(args[5])
 input_deconstructSigs = as.logical(args[6]) 
 
 
-# input_mutationalPatterns = TRUE
-# input_sigflow = FALSE 
-# input_sigfit = FALSE 
-# input_deconstructSigs = FALSE
+input_mutationalPatterns = TRUE
+input_sigflow = FALSE
+input_sigfit = FALSE
+input_deconstructSigs = FALSE
 
 if (run_sbs){
   final_legacy_df = runLegacy( mut_mat_input = t(data_matrix_stratton), mutationalPatterns = input_mutationalPatterns, sigflow = input_sigflow , sigfit = input_sigfit , deconstructSigs = input_deconstructSigs )

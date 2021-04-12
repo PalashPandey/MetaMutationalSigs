@@ -35,21 +35,16 @@ def upload_file():
 			return redirect(request.url)
 		files = request.files.getlist('files[]')
 		whichtorun_list = request.form.getlist('whichToRun')
+		print(whichtorun_list)
 		global genome_ref
 		genome_ref = request.form["genome"]
 		print(genome_ref)
-		if genome_ref ==  "GRCh38":
-			genInstall.install('GRCh38', rsync=False, bash=True)
 		if genome_ref ==  "GRCm37":
 			genInstall.install('GRCm37', rsync=False, bash=True)
 		if genome_ref ==  "GRCm38.p6":
 			genInstall.install('GRCm38.p6', rsync=False, bash=True)
 		if genome_ref ==  "Rnor_6.0":
 			genInstall.install('Rnor_6.0', rsync=False, bash=True)
-		if runMutationalPatterns ==  False:
-			runMutationalPatterns = "TRUE"
-		if runMutationalPatterns ==  True:
-			runMutationalPatterns = "FALSE"
 
 		if "runMutationalPatterns" in whichtorun_list:
 			global mutationalPattern

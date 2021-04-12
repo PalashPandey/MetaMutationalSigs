@@ -62,11 +62,11 @@ if __name__ == '__main__':
 				genome_ref = "GRCh37"
 
 			if genome_ref ==  "GRCh37":
-				genInstall.install('GRCh37', rsync=False, bash=True)
+				# genInstall.install('GRCh37', rsync=False, bash=True)
 				genome_ref = "GRCh37"
 
 			if genome_ref ==  "GRCh38":
-				genInstall.install('GRCh38', rsync=False, bash=True)
+				# genInstall.install('GRCh38', rsync=False, bash=True)
 				genome_ref = "GRCh38"
 
 			if genome_ref ==  "GRCm37":

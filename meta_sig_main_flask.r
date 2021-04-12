@@ -6,6 +6,7 @@ library(sigfit)
 library(sigminer)
 library(dplyr)
 library(ggpubr)
+library(tidyverse)
 library("devtools")
 
 ######### Installation and setup
@@ -181,6 +182,9 @@ runLegacy = function(ref_genome = "hg19",
                       mut_mat_input, mutationalPatterns = TRUE, sigflow = TRUE , sigfit = TRUE , deconstructSigs = TRUE) {
   mut_mat <- mut_mat_input
   mut_mat <- t(mut_mat)
+  print(typeof(mut_mat) )
+  print(typeof(mut_mat) )
+
   ####### MutationalPatteTRUE
   print(mutationalPatterns)
   if (mutationalPatterns){
@@ -582,27 +586,27 @@ genome_build = args[2]
 
 data("cosmic_signatures_v2")
 if (genome_build == "GRCh37"){
-SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_GRCh37.txt")
-DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_GRCh37.txt")
+SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
+DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "GRCh38"){
-  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_GRCh38.txt")
-  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_GRCh38.txt")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"/app/data/COSMIC_v3.2_DBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "mm9"){
-  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm9.txt")
-  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm9.txt")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_mm9.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"/app/data/COSMIC_v3.2_DBS_mm9.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "mm10"){
-  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_mm10.txt")
-  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_mm10.txt")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_mm10.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_mm10.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "rn6"){
-  SBS_signatures <- read.delim("/app/data/COSMIC_v3.2_SBS_rn6.txt")
-  DBS_signatures <- read.delim("/app/data/COSMIC_v3.2_DBS_rn6.txt")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_rn6.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_rn6.txt") %>% column_to_rownames(., var = "Type")
 }
-ID_signatures <- read.delim("/app/data/COSMIC_v3.2_ID_GRCh37.txt")
-legacy_signatures <- read.delim("/app/data/legacy_signatures.RDs")
+ID_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_ID_GRCh37.txt") %>% column_to_rownames(., var = "Type")
+legacy_signatures <- readRDS("/app/data/legacy_signatures.RDs")$db
 
 
 

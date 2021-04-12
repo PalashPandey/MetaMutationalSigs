@@ -104,19 +104,20 @@
 					{% endwith %}
 				</p>
 				<form method="post" action="/" enctype="multipart/form-data">
-          <label for="cars">Choose a car:</label>
-          <select id="cars" name="cars">
-            <option value="GRCh37">GRCh37</option>
-            <option value="GRCh37">GRCh37</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
-          </select>
         
 					<dl>
 						<p>
 							<input type="file" name="files[]" multiple="true" autocomplete="off" required>
 						</p>
 						<!-- Links to tool papers  -->
+						<label for="genome">Reference genome:</label>
+						<select id="genome" name="genome">
+							<option value="GRCh37">GRCh37</option>
+							<option value="GRCh38">GRCh38</option>
+							<option value="GRCm37">GRCm37</option>
+							<option value="GRCm38.p6">GRCm38.p6</option>
+							<option value="Rnor_6.0">Rnor_6.0</option>
+						</select>
 						<p>
 							<a href="https://bioconductor.org/packages/release/bioc/html/MutationalPatterns.html">MutatitionalPatterns </a>  <input type="checkbox" class="checkbox-round" name= "whichToRun" value="runMutationalPatterns" multiple="true" autocomplete="off" >
 						</p>
