@@ -10,7 +10,9 @@ We created this package *MetaMutationalSigs* to facilitate comprehensive mutatio
 
 docker pull pp535/metamutationalsigs
 
-## Input: 
+https://hub.docker.com/r/pp535/metamutationalsigs 
+
+### Input: 
 VCF files.
 
 To run *metamutationalsigs* without using *sigflow* and *sigfit* on the data from your VCF file directory `C:\Users\...full_path...\docker_input_test`.  Just replace ``C:\Users\...full_path...\docker_input_test/`` with absolute path to your input directory that has VCF files. The results will be in a zipped file in your input directory.<br> 
