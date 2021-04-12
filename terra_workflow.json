@@ -4,7 +4,8 @@ task run_metaMutationalSignatures {
     String 
   
     command {
-        metaMutatationalSignatures fit ${"-g " + genome_reference} ${"-i " + input_maf} ${"-o results"}
+      docker run --rm -it -v C:\Users\...full_path...\docker_input_test/:/app/input_vcf_dir pp535/metamutationalsigs  --i 'input_vcf_dir' --sigflow --sigfit
+        // metaMutatationalSignatures fit ${"-g " + genome_reference} ${"-i " + input_maf} ${"-o results"}
     }
   
     output {
