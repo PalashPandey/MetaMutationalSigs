@@ -66,8 +66,8 @@
 
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#about" data-scroll-nav="1" class="active">ABOUT</a></li>
-				<li><a href="#faq" data-scroll-nav="1" class="active">FAQ</a></li>
+				<li><a href="#about" data-scroll-nav="3" class="active">ABOUT</a></li>
+				<li><a href="#faq" data-scroll-nav="4" class="active">FAQ</a></li>
 				<li><a href="#contact" data-scroll-nav="5">CONTACT</a></li>
 			</ul>
 		</div>
@@ -157,92 +157,54 @@
 
 	<div class="container" id="about">
 		<div class="container" id="long">
+		<h2 id="faqs-resources-">About:</h2>
+
 			<span class="theText" >
-				The analysis of mutational signatures is becoming increasingly common in cancer genetics, with emerging implications in cancer evolution, classification, treatment decision and prognosis.  Recently, several packages have been developed for mutational signature analysis, with each using different methodology and yielding significantly different results. Because of the nontrivial differences in tools’ refitting results, researchers may desire to survey and compare the available tools, in order to objectively evaluate the results for their specific research question, such as which mutational signatures are prevalent in different cancer types. There is a need for a software that can aggregate results from different refitting packages and present them in a user-friendly way to facilitate effective comparison of mutational signatures. 
+
+				This tool is a collaboration between <a href= http://drexeleesi.com> Drexel University (PI Rosen) </a>, and <a href= https://www.foxchase.org/sanjeevani-arora> Fox Chase Cancer Center (PI Arora) </a>.  This work was supported by NSF grants #1936791 and #1919691, Fox Chase Cancer Center Risk Assessment Program Funds, and
+DOD award W81XWH-18-1-0148.  Read the associated publication for more information.
+
+				<!-- The analysis of mutational signatures is becoming increasingly common in cancer genetics, with emerging implications in cancer evolution,
+				 classification, treatment decision and prognosis.  Recently, several packages have been developed for mutational signature analysis, with 
+				 each using different methodology and yielding significantly different results. Because of the nontrivial differences in tools’ refitting results, 
+				 researchers may desire to survey and compare the available tools, in order to objectively evaluate the results for their specific research question, 
+				 such as which mutational signatures are prevalent in different cancer types. There is a need for a software that can aggregate results from different 
+				 refitting packages and present them in a user-friendly way to facilitate effective comparison of mutational signatures.  -->
 			</span>
 		</div>
 	</div>
 
-	<!-- <div class="container" id="faq">
-		<div class="panel-group" id="accordion">
-				<div class="faqHeader">FAQ</div>
-				<div class="panel panel-default">
-						<div class="panel-heading">
-								<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">What are my input files?</a>
-								</h4>
-						</div>
-						<div id="collapseOne" class="panel-collapse collapse in">
-								<div class="panel-body">
-										<strong>MetaMutationalSignatures</strong> requires a directory of VCF files as input.  
-								</div>
-						</div>
-				</div>
-				<div class="panel panel-default">
-						<div class="panel-heading">
-								<h4 class="panel-title">
-										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Where is my analysis running?</a>
-								</h4>
-						</div>
-						<div id="collapseTen" class="panel-collapse collapse">
-								<div class="panel-body">
-									Even though you are operating <strong>MetaMutationalSignatures</strong> from your browser, it is running locally on your system. Your files are never transmitted across any network.
-								</div>
-						</div>
-				</div>
-				<div class="panel panel-default">
-						<div class="panel-heading">
-								<h4 class="panel-title">
-										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">What do these figures in my result mean?</a>
-								</h4>
-						</div>
-						<div id="collapseEleven" class="panel-collapse collapse">
-								<div class="panel-body">
-										You can find the description for the result here (link to the paper)
-								</div>
-						</div>
-				</div>
-			</div>
-	</div>
-	<style>
-			.faqHeader {
-					font-size: 27px;
-					margin: 20px;
-			}
-	
-			.panel-heading [data-toggle="collapse"]:after {
-					font-family: 'Glyphicons Halflings';
-					content: "e072"; /* "play" icon */
-					float: right;
-					color: #F58723;
-					font-size: 18px;
-					line-height: 22px;
-					/* rotate "play" icon from > (right arrow) to down arrow */
-					-webkit-transform: rotate(-90deg);
-					-moz-transform: rotate(-90deg);
-					-ms-transform: rotate(-90deg);
-					-o-transform: rotate(-90deg);
-					transform: rotate(-90deg);
-			}
-	
-			.panel-heading [data-toggle="collapse"].collapsed:after {
-					/* rotate "play" icon from > (right arrow) to ^ (up arrow) */
-					-webkit-transform: rotate(90deg);
-					-moz-transform: rotate(90deg);
-					-ms-transform: rotate(90deg);
-					-o-transform: rotate(90deg);
-					transform: rotate(90deg);
-					color: #454444;
-			}
-	</style> -->
+	<div class="container" id="faq">
 
+		<h2 id="faqs-resources-">FAQs / Resources:</h2>
+		<h3 id="where-can-i-find-the-tools-used-">Where can I find the tools used ?</h3>
+		<ul>
+		<li>MutatitionalPatterns <a href="https://bioconductor.org/packages/release/bioc/html/MutationalPatterns.html">https://bioconductor.org/packages/release/bioc/html/MutationalPatterns.html</a></li>
+		<li>Sigflow/ Sigminer <a href="https://github.com/ShixiangWang/sigflow">https://github.com/ShixiangWang/sigflow</a></li>
+		<li>Sigfit <a href="https://github.com/kgori/sigfit">https://github.com/kgori/sigfit</a></li>
+		<li>DeconstructSigs <a href="https://github.com/raerose01/deconstructSigs">https://github.com/raerose01/deconstructSigs</a> </li>
+		</ul>
+		<h3 id="additional-reading-review-paper">Additional reading: review paper</h3>
+		<p>Omichessan, H., Severi, G., &amp; Perduca, V. (2019). Computational tools to detect signatures of mutational processes in DNA from tumours: A review and empirical comparison of performance. PLOS ONE, 14(9), e0221235. <a href="https://doi.org/10.1371/journal.pone.0221235">https://doi.org/10.1371/journal.pone.0221235</a>  </p>
+		<h3 id="what-reference-genomes-are-supported-">What reference genomes are supported?</h3>
+		<p>MetamutationalSigs supports: </p>
+		<p>GRCh37/ hg19 <em>Homo sapiens</em><br> 
+		GRCh38/ hg38 <em>Homo sapiens</em><br> 
+		GRCm37/ mm9 <em>Mus musculus</em><br> 
+		GRCm38.p6/ mm10 <em>Mus musculus</em><br> 
+		Rnor_6.0/ rn6 <em>Rattus norvegicus</em><br></p>
+		<h3 id="what-is-the-format-for-my-files-">What is the format for my files?</h3>
+		<p>Your files need to be in VCF format. For more information <a href="https://www.internationalgenome.org/wiki/Analysis/vcf4.0/">https://www.internationalgenome.org/wiki/Analysis/vcf4.0/</a></p>
+		<h3 id="where-is-my-analysis-running-">Where is my analysis running?</h3>
+		<p>All analysis is run locally. No data leaves your computer. The web browser user interface is also running locally on your computer, so you can feel free to analyze your protected data.</p>
+		
 
 
 	</div>
 
 
 
-	<section class="container heading" id="contact" data-scroll-index="5">
+	<section class="container heading" style="padding-top: 0;" id="contact" data-scroll-index="5">
 
 		<div class="row">
 			<br>

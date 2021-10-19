@@ -19,7 +19,7 @@ def make_piecharts(data_df, n_rows, n_cols, fig_title):
     for x in range(n_rows):
         temp_spec_list = []
         for  y in range(n_cols):
-            temp_spec_list.append({"type": "pie"})
+            temp_spec_list.append({"type": "bar"})
             subplot_coordinate.append([x+1, y+1])
         specs_list.append(temp_spec_list)
     fig = make_subplots(rows=n_rows, cols=n_cols, specs=specs_list, subplot_titles= list(data_df["sample"]))
@@ -27,8 +27,10 @@ def make_piecharts(data_df, n_rows, n_cols, fig_title):
         df = pd.DataFrame(data_df.iloc[i,1:])
         sample_name = data_df.iloc[i,:][0]
         df.rename( columns={i : sample_name}, inplace = True)
-        fig.add_trace(go.Pie(labels=list(df[sample_name].index), values= df[sample_name].values, name=sample_name, textinfo= "none"), subplot_coordinate[i][0] , subplot_coordinate[i][1] )
-    fig.update_layout(width = 2000, height = 2000, title_text=fig_title)
+        fig.add_trace(go.Bar(x=list(df[sample_name].index), y= df[sample_name].values), subplot_coordinate[i][0] , subplot_coordinate[i][1] )
+    fig_width = data_df.shape[0] * 500
+    fig_height = 500
+    fig.update_layout(width = fig_width, height = fig_height, title_text=fig_title, showlegend=False)
     return fig
 
 
@@ -55,7 +57,7 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             rows = math.ceil(sigflow_legacy_exposure_df.shape[0] / 6)
             columns = 6
 
-            sigflow_legacy_exposure_df_fig = make_piecharts(sigflow_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data Sigflow")    
+            sigflow_legacy_exposure_df_fig = make_piecharts(sigflow_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' SBS exposures data Sigflow")    
             legacy_df_list.append(sigflow_legacy_exposure_df.sort_values(by=["sample"]))
             legacy_df_name_list.append("sigflow")
         if mutationalPattern:
@@ -75,8 +77,8 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             mutationalPatterns_strict_legacy_exposure_df = mutationalPatterns_strict_legacy_exposure_df.div(mutationalPatterns_strict_legacy_exposure_df.sum(axis=1), axis=0)
             mutationalPatterns_strict_legacy_exposure_df.reset_index(inplace= True)
 
-            mutationalPatters_legacy_fig = make_piecharts(mutationalPatterns_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures  data MutationalPatterns")    
-            mutationalPatters_strict_legacy_fig = make_piecharts(mutationalPatterns_strict_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data MutationalPatterns Strict")                
+            mutationalPatters_legacy_fig = make_piecharts(mutationalPatterns_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' SBS exposures  data MutationalPatterns")    
+            mutationalPatters_strict_legacy_fig = make_piecharts(mutationalPatterns_strict_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' SBS exposures data MutationalPatterns Strict")                
             legacy_df_list.append(mutationalPatterns_legacy_exposure_df.sort_values(by=["sample"]))
             legacy_df_name_list.append("mutationalPatterns")
             legacy_df_list.append(mutationalPatterns_strict_legacy_exposure_df.sort_values(by=["sample"]))
@@ -89,12 +91,12 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             rows = math.ceil(deconstructSigs_legacy_exposure_df.shape[0] / 6)
             columns = 6
             
-            deconstructSigs_legacy_exposure_df_fig = make_piecharts(deconstructSigs_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures data DeconstructSigs")    
+            deconstructSigs_legacy_exposure_df_fig = make_piecharts(deconstructSigs_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' SBS exposures data DeconstructSigs")    
 
             legacy_df_list.append(deconstructSigs_legacy_exposure_df.sort_values(by=["sample"]))
             legacy_df_name_list.append("deconstructSigs")
         if sigfit:
-            sigfit_legacy_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/sample_exposures_legacy.csv")
+            sigfit_legacy_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/legacy_sample_exposures.csv")
             sigfit_legacy_exposure_df.rename(columns={"Unnamed: 0": "sample" }, inplace= True)
             sigfit_legacy_exposure_df.columns = ["sample"] +  [ "COSMIC_" + i.split(".")[-1] for i in sigfit_legacy_exposure_df.columns[1:]]
             pie_chart_rows = math.ceil(sigfit_legacy_exposure_df.shape[0] / 3) 
@@ -102,11 +104,11 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             rows = math.ceil(sigfit_legacy_exposure_df.shape[0] / 6)
             columns = 6
 
-            sigfit_legacy_exposure_df_fig = make_piecharts(sigfit_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' exposures  data Sigfit")    
+            sigfit_legacy_exposure_df_fig = make_piecharts(sigfit_legacy_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V2 'Legacy' SBS exposures  data Sigfit")    
             legacy_df_list.append(sigfit_legacy_exposure_df.sort_values(by=["sample"]))
             legacy_df_name_list.append("sigfit")
 
-        with open(r_output_file_dir + '/legacy_pie_charts.html', 'a') as f:
+        with open(r_output_file_dir + '/legacy_bar_charts.html', 'a') as f:
             if sigflow:
                 f.write(sigflow_legacy_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if mutationalPattern:
@@ -116,6 +118,22 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
                 f.write(sigfit_legacy_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if deconstructSigs:
                 f.write(deconstructSigs_legacy_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
+        
+
+        fig = plt.figure(figsize=( 50, 10 ))
+
+        for i in range(len(legacy_df_list)):
+            sns.set(font_scale=1.3)
+            df = legacy_df_list[i]
+            ax = fig.add_subplot(rows, columns, i+1)    
+            sns.heatmap(df.set_index("sample") , cmap="YlGnBu" , xticklabels = True, yticklabels= True)
+            sns.set(rc={'figure.figsize':(10 , 10)})
+            plt.tight_layout()
+            plt.title("Heatmap legacy SBS " + legacy_df_name_list[i] )
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_legacy.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_legacy.png", bbox_inches='tight')
+        
         distance_df_list = []
         for i in range(legacy_df_list[0].shape[0]):
             temp_df = []
@@ -125,27 +143,20 @@ def run_legacy(sigfit = True, sigflow = True, deconstructSigs= True, mutationalP
             _df = pd.DataFrame(temp_df, columns = legacy_df_list[0].columns)
             _df.fillna(0, inplace = True)
             distance_df_list.append(_df)
-        fig = plt.figure(figsize=(30, 30))
-        fig.subplots_adjust(hspace=2, wspace=2)
+        fig = plt.figure(figsize=(40  , 8 ))
+        sns.set(font_scale=1.7)
+        
         for i in range(len(distance_df_list)):
             df = distance_df_list[i]
             df__ = pd.DataFrame(squareform(pdist(df.iloc[:, 1:])), columns=df["sample"].unique(), index=df["sample"].unique())
-            sns.set()
             ax = fig.add_subplot(rows, columns, i+1)    
             sns.heatmap(df__)
-            plt.title("Heatmap legacy " + legacy_df_list[0].iloc[i,0] )
-        plt.savefig(r_output_file_dir + "/Heatmap_legacy.pdf", dpi =500)
+            plt.tight_layout()
+            plt.title("Heatmap legacy SBS " + legacy_df_list[0].iloc[i,0] )
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_legacy.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_legacy.png", bbox_inches='tight')
 
-        fig = plt.figure(figsize=( 120, 30 ))
-        fig.subplots_adjust(right = 0.9, wspace=.01)
-        for i in range(len(legacy_df_list)):
-            df = legacy_df_list[i]
-            sns.set()
-            ax = fig.add_subplot(rows, columns, i+1)    
-            sns.heatmap(df.set_index("sample") , cmap="YlGnBu" , xticklabels = True, yticklabels= True)
-            sns.set(rc={'figure.figsize':(30, 30)})
-            plt.title("Heatmap legacy " + legacy_df_name_list[i] )
-        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_legacy.pdf")
 
     except Exception as e:
         print("No legacy sigs found", e)    
@@ -203,11 +214,11 @@ def run_sbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             rows = math.ceil(deconstructSigs_sbs_exposure_df.shape[0] / 6) 
             columns = 6
 
-            deconstructSigs_sbs_exposure_df_fig = make_piecharts(deconstructSigs_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'Legacy' exposures data DeconstructSigs")    
+            deconstructSigs_sbs_exposure_df_fig = make_piecharts(deconstructSigs_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data DeconstructSigs")    
             sbs_df_list.append(deconstructSigs_sbs_exposure_df.sort_values(by=["sample"]))
             sbs_df_name_list.append("deconstructSigs")            
         if sigfit:
-            sigfit_sbs_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/sample_exposures_sbs.csv")
+            sigfit_sbs_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/sbs_sample_exposures.csv")
             sigfit_sbs_exposure_df.rename(columns={"Unnamed: 0": "sample" }, inplace= True)
             pie_chart_rows = math.ceil(sigfit_sbs_exposure_df.shape[0] / 3) 
             pie_chart_cols = 3
@@ -217,7 +228,7 @@ def run_sbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             sigfit_sbs_exposure_df_fig = make_piecharts(sigfit_sbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigfit")   
             sbs_df_list.append(sigfit_sbs_exposure_df.sort_values(by=["sample"]))
             sbs_df_name_list.append("sigfit")        
-        with open(r_output_file_dir + '/sbs_pie_charts.html', 'a') as f:
+        with open(r_output_file_dir + '/sbs_bar_charts.html', 'a') as f:
             if sigflow:
                 f.write(sigflow_sbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if mutationalPattern:
@@ -227,35 +238,43 @@ def run_sbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
                 f.write(sigfit_sbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if deconstructSigs:
                 f.write(deconstructSigs_sbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
+        
+        fig = plt.figure(figsize=(75, 15))
+        for i in range(len(sbs_df_list)):  
+            sns.set(font_scale=1.4)
+            df = sbs_df_list[i].set_index("sample").astype(float)
+            ax = fig.add_subplot(rows, columns, i+1)
+            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
+            sns.set(rc={'figure.figsize':(10, 10)})
+            plt.title("Heatmap V3 SBS " + str(sbs_df_name_list[i]))
+            plt.tight_layout()
+
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_SBS.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_SBS.png", bbox_inches='tight')
+        
         distance_df_list = []
         for i in range(sbs_df_list[0].shape[0]):
             temp_df = []
             for index , j in enumerate(sbs_df_list):
-                j["sample"] = sbs_df_name_list[index]
+                j["sample"] = sbs_df_list[index]
                 temp_df.append(list(j.iloc[i,:]))
             _df = pd.DataFrame(temp_df, columns = sbs_df_list[0].columns)
             _df.fillna(0, inplace= True)
             distance_df_list.append(_df)
-        fig = plt.figure(figsize=(30, 30))
-        fig.subplots_adjust(hspace=2, wspace=2)
+
+        fig = plt.figure(figsize=(40  , 8 ))
+        sns.set(font_scale=1.7)
         for i in range(len(distance_df_list)):  
             df = distance_df_list[i]
             df_ = pd.DataFrame(squareform(pdist(df.iloc[:, 1:])), columns=df["sample"].unique(), index=df["sample"].unique())
-            sns.set()
             ax = fig.add_subplot(rows, columns, i+1)    
             sns.heatmap(df_)
-            plt.title("Heatmap SBS " + str(sbs_df_list[0].iloc[i,0]))
-        plt.savefig(r_output_file_dir + "/Heatmap_SBS.pdf", dpi =500)
-        fig = plt.figure(figsize=(120, 30))
-        fig.subplots_adjust(right = 0.9, wspace=.01)
-        for i in range(len(sbs_df_list)):  
-            df = sbs_df_list[i].set_index("sample").astype(float)
-            sns.set()
-            ax = fig.add_subplot(rows, columns, i+1)
-            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
-            sns.set(rc={'figure.figsize':(30, 30)})
-            plt.title("Heatmap SBS " + str(sbs_df_name_list[i]))
-        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_SBS.pdf")
+            plt.tight_layout()
+            plt.title("Heatmap V3 SBS " + str(sbs_df_list[0].iloc[i,0]))
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_SBS.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_SBS.png", bbox_inches='tight')
+
 
     except Exception as e:
         print("No SBS sigs found", e)    
@@ -272,7 +291,7 @@ def run_id(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatte
             rows = math.ceil(sigflow_id_exposure_df.shape[0] / 6) 
             columns = 6
 
-            sigflow_id_exposure_df_fig = make_piecharts(sigflow_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigflow")   
+            sigflow_id_exposure_df_fig = make_piecharts(sigflow_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'ID' exposures data Sigflow")   
             id_df_list.append(sigflow_id_exposure_df.sort_values(by=["sample"]))
             id_df_name_list.append("sigflow")
         if mutationalPattern:
@@ -286,7 +305,7 @@ def run_id(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatte
             rows = math.ceil(mutationalPatterns_id_exposure_df.shape[0] / 6) 
             columns = 6
 
-            id_mutational_patters_fig = make_piecharts(mutationalPatterns_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures  data MutationalPatterns")    
+            id_mutational_patters_fig = make_piecharts(mutationalPatterns_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'ID' exposures  data MutationalPatterns")    
             id_df_list.append(mutationalPatterns_id_exposure_df.sort_values(by=["sample"]))
             id_df_name_list.append("mutationalPatters")
         if deconstructSigs:
@@ -299,19 +318,19 @@ def run_id(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatte
             rows = math.ceil(deconstructSigs_id_exposure_df.shape[0] / 6) 
             columns = 6
 
-            deconstructSigs_id_exposure_df_fig = make_piecharts(deconstructSigs_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'Legacy' exposures data DeconstructSigs")    
+            deconstructSigs_id_exposure_df_fig = make_piecharts(deconstructSigs_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'ID' exposures data DeconstructSigs")    
         if sigfit:
-            sigfit_id_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/sample_exposures_indel.csv")
+            sigfit_id_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/indel_sample_exposures.csv")
             sigfit_id_exposure_df.rename(columns={"Unnamed: 0": "sample" }, inplace= True)
             pie_chart_rows = math.ceil(sigfit_id_exposure_df.shape[0] / 3) 
             pie_chart_cols = 3
             rows = math.ceil(sigfit_id_exposure_df.shape[0] / 6) 
             columns = 6
 
-            sigfit_id_exposure_df_fig = make_piecharts(sigfit_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigfit")   
+            sigfit_id_exposure_df_fig = make_piecharts(sigfit_id_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'ID' exposures data Sigfit")   
             id_df_list.append(sigfit_id_exposure_df.sort_values(by=["sample"]))
             id_df_name_list.append("sigfit")        
-        with open(r_output_file_dir + '/id_pie_charts.html', 'a') as f:
+        with open(r_output_file_dir + '/id_bar_charts.html', 'a') as f:
             if sigflow:
                 f.write(sigflow_id_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if mutationalPattern:
@@ -320,6 +339,20 @@ def run_id(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatte
                 f.write(sigfit_id_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if deconstructSigs:
                 f.write(deconstructSigs_id_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
+        
+        fig = plt.figure(figsize=(50, 10))
+        for i in range(len(id_df_list)):  
+            sns.set(font_scale=1.7)
+            df = id_df_list[i].set_index("sample").astype(float)
+            ax = fig.add_subplot(rows, columns, i+1)
+            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
+            sns.set(rc={'figure.figsize':(10, 10)})
+            plt.tight_layout()
+            plt.title("Heatmap ID " + str(id_df_name_list[i]))
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_ID.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_ID.png", bbox_inches='tight')
+        
         distance_df_list = []
         for i in range(id_df_list[0].shape[0]):
             temp_df = []
@@ -330,26 +363,20 @@ def run_id(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatte
             _df.fillna(0, inplace= True)
             distance_df_list.append(_df)
 
-        fig = plt.figure(figsize=(30, 30))
-        fig.subplots_adjust(hspace=2, wspace=2)
+        fig = plt.figure(figsize=(40  , 8 ))
+        sns.set(font_scale=1.7)
+
         for i in range(len(distance_df_list)):  
             df = distance_df_list[i]
             df_ = pd.DataFrame(squareform(pdist(df.iloc[:, 1:])), columns=df["sample"].unique(), index=df["sample"].unique())
-            sns.set()
             ax = fig.add_subplot(rows, columns, i+1)    
             sns.heatmap(df_)
+            plt.tight_layout()
             plt.title("Heatmap ID " + str(id_df_list[0].iloc[i,0]))
-        plt.savefig(r_output_file_dir + "/Heatmap_ID.pdf", dpi =500)
-        fig = plt.figure(figsize=(120, 30))
-        fig.subplots_adjust(right = 0.9, wspace=.01)
-        for i in range(len(id_df_list)):  
-            df = id_df_list[i].set_index("sample").astype(float)
-            sns.set()
-            ax = fig.add_subplot(rows, columns, i+1)
-            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
-            sns.set(rc={'figure.figsize':(30, 30)})
-            plt.title("Heatmap ID " + str(id_df_name_list[i]))
-        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_ID.pdf")
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_ID.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_ID.png", bbox_inches='tight')
+
         
     except Exception as e:
         print("No ID sigs found", e)    
@@ -366,7 +393,7 @@ def run_dbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             rows = math.ceil(sigflow_dbs_exposure_df.shape[0] / 6)
             columns = 6
 
-            sigflow_dbs_exposure_df_fig = make_piecharts(sigflow_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigflow")   
+            sigflow_dbs_exposure_df_fig = make_piecharts(sigflow_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'DBS' exposures data Sigflow")   
             dbs_df_list.append(sigflow_dbs_exposure_df.sort_values(by=["sample"]))
             dbs_df_name_list.append("sigflow")
         if mutationalPattern:
@@ -381,7 +408,7 @@ def run_dbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             columns = 6
 
 
-            dbs_mutational_patters_fig = make_piecharts(mutationalPatterns_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures  data MutationalPatterns")    
+            dbs_mutational_patters_fig = make_piecharts(mutationalPatterns_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'DBS' exposures  data MutationalPatterns")    
             dbs_df_list.append(mutationalPatterns_dbs_exposure_df.sort_values(by=["sample"]))
             dbs_df_name_list.append("mutationalPatters")
         if deconstructSigs:
@@ -392,21 +419,21 @@ def run_dbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             rows = math.ceil(deconstructSigs_dbs_exposure_df.shape[0] / 6)
             columns = 6
 
-            deconstructSigs_dbs_exposure_df_fig = make_piecharts(deconstructSigs_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'Legacy' exposures data DeconstructSigs")    
+            deconstructSigs_dbs_exposure_df_fig = make_piecharts(deconstructSigs_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'DBS' exposures data DeconstructSigs")    
             dbs_df_list.append(deconstructSigs_dbs_exposure_df.sort_values(by=["sample"]))
             dbs_df_name_list.append("deconstructSigs")            
         if sigfit:
-            sigfit_dbs_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/sample_exposures_dbs.csv")
+            sigfit_dbs_exposure_df = pd.read_csv(r_output_file_dir + "/sigfit_results/dbs_sample_exposures.csv")
             sigfit_dbs_exposure_df.rename(columns={"Unnamed: 0": "sample" }, inplace= True)
             pie_chart_rows = math.ceil(sigfit_dbs_exposure_df.shape[0] / 3) 
             pie_chart_cols = 3
             rows = math.ceil(sigfit_dbs_exposure_df.shape[0] / 6)
             columns = 6
 
-            sigfit_dbs_exposure_df_fig = make_piecharts(sigfit_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'SBS' exposures data Sigfit")   
+            sigfit_dbs_exposure_df_fig = make_piecharts(sigfit_dbs_exposure_df, pie_chart_rows, pie_chart_cols, "COSMIC V3 'DBS' exposures data Sigfit")   
             dbs_df_list.append(sigfit_dbs_exposure_df.sort_values(by=["sample"]))
             dbs_df_name_list.append("sigfit")
-        with open(r_output_file_dir + '/dbs_pie_charts.html', 'a') as f:
+        with open(r_output_file_dir + '/dbs_bar_charts.html', 'a') as f:
             if sigflow:
                 f.write(sigflow_dbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if mutationalPattern:
@@ -415,6 +442,21 @@ def run_dbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
                 f.write(sigfit_dbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
             if deconstructSigs:
                 f.write(deconstructSigs_dbs_exposure_df_fig.to_html(full_html=False, include_plotlyjs='cdn'))
+        
+        sns.set(font_scale=1.7)
+        fig = plt.figure(figsize=(50, 10))
+        for i in range(len(dbs_df_list)):  
+            sns.set(font_scale=1.7)
+            df = dbs_df_list[i].set_index("sample").astype(float)
+            ax = fig.add_subplot(rows, columns, i+1)
+            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
+            sns.set(rc={'figure.figsize':(10, 10)})
+            plt.tight_layout()
+            plt.title("Heatmap DBS " + str(dbs_df_name_list[i]))
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_DBS.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_DBS.png", bbox_inches='tight')
+        
         distance_df_list = []
         for i in range(dbs_df_list[0].shape[0]):
             temp_df = []
@@ -425,27 +467,21 @@ def run_dbs(sigfit = True, sigflow = True, deconstructSigs= True, mutationalPatt
             _df.fillna(0, inplace= True)
             distance_df_list.append(_df)
 
-        fig = plt.figure(figsize=(30, 30))
-        fig.subplots_adjust(hspace=2, wspace=2)
+        fig = plt.figure(figsize=( 40 , 8 ))
+        sns.set(font_scale=1.7)
+
         for i in range(len(distance_df_list)):  
             df = distance_df_list[i]
             df_ = pd.DataFrame(squareform(pdist(df.iloc[:, 1:])), columns=df["sample"].unique(), index=df["sample"].unique())
-            sns.set()
             ax = fig.add_subplot(rows, columns, i+1)    
             sns.heatmap(df_)
-            plt.title("Heatmap DBS " + str(dbs_df_list[0].iloc[i,0]))
-        plt.savefig(r_output_file_dir + "/Heatmap_DBS.pdf", dpi =500)
+            plt.tight_layout()
 
-        fig = plt.figure(figsize=(120, 30))
-        fig.subplots_adjust(right = 0.9, wspace=.01)
-        for i in range(len(dbs_df_list)):  
-            df = dbs_df_list[i].set_index("sample").astype(float)
-            sns.set()
-            ax = fig.add_subplot(rows, columns, i+1)
-            sns.heatmap(df , cmap="YlGnBu", xticklabels = True, yticklabels= True )
-            sns.set(rc={'figure.figsize':(30, 30)})
-            plt.title("Heatmap DBS " + str(dbs_df_name_list[i]))
-        plt.savefig(r_output_file_dir + "/Heatmap_exposures_all_sigs_DBS.pdf")
+            plt.title("Heatmap DBS " + str(dbs_df_list[0].iloc[i,0]))
+        
+        plt.savefig(r_output_file_dir + "/Heatmap_DBS.svg", bbox_inches='tight')
+        plt.savefig(r_output_file_dir + "/Heatmap_DBS.png", bbox_inches='tight')
+
 
     except Exception as e:
         print("No DBS sigs found", e)    

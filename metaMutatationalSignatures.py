@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
 			matGen.SigProfilerMatrixGeneratorFunc("MetaMutationalSigs", genome_ref , input_dir)
 			subprocess.call(['Rscript' ,  "meta_sig_main_flask.r", input_dir , genome_ref , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
-			subprocess.call(['python3.8', "errors_pie_heatmap.py", input_dir   , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
+			subprocess.call(['python3.8', "plot_graphs.py", input_dir   , runMutationalPatterns , runsigflow, runsigfit, runDeconstructSigs])
 
 			shutil.rmtree(input_dir + "/input")
 			shutil.rmtree(input_dir + "/logs")
