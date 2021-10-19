@@ -61,7 +61,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <i class="fa fa-bars"></i>
       </button>
-      <a data-scroll-nav="0" href="/" class="navbar-brand"> MetaMutationalSignatures </a>
+      <a href="/" class="navbar-brand"> MetaMutationalSignatures </a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -154,10 +154,16 @@
     <br>
     <br>
 
+    
 
     <a class="btn btn-lg btn-outline" id="download-results-div" style="background-color: rgb(80, 106, 255) ; color: white;  display: none"
     href="/download">
     <i class="fa fa-download"></i> Download results!
+    </a>
+
+    <a class="btn btn-lg btn-outline" id="show-results-div" style="background-color: rgb(80, 106, 255) ; color: white;  display: none"
+    href="/final_results">
+    <i class="fa fa-download"></i> Show results!
     </a>
 
     <br>
@@ -177,7 +183,10 @@
   <div class="container" id="abstract">
     <div class="container" id="long">
       <span class="theText" style="    margin: 20px;">
-        The analysis of mutational signatures is becoming increasingly common in cancer genetics, with emerging implications in cancer evolution, classification, treatment decision and prognosis.  Recently, several packages have been developed for mutational signature analysis, with each using different methodology and yielding significantly different results. Because of the nontrivial differences in tools’ refitting results, researchers may desire to survey and compare the available tools, in order to objectively evaluate the results for their specific research question, such as which mutational signatures are prevalent in different cancer types. There is a need for a software that can aggregate results from different refitting packages and present them in a user-friendly way to facilitate effective comparison of mutational signatures. 
+
+				This tool is a collaboration between <a href= http://drexeleesi.com> Drexel University (PI Rosen) </a>, and <a href= https://www.foxchase.org/sanjeevani-arora> Fox Chase Cancer Center (PI Arora) </a>.  This work was supported by NSF grants #1936791 and #1919691, Fox Chase Cancer Center Risk Assessment Program Funds, and
+        DOD award W81XWH-18-1-0148.  Read the associated publication for more information.
+
       </span>
     </div>
   </div>
@@ -233,16 +242,24 @@
       xmlHttp.send( null );
       return xmlHttp.responseText;
   }
+  prepended_already = true
 
   var source = new EventSource("/progress");
 	source.onmessage = function(event) {
-		$('.progress-bar').css('width', event.data+'%').attr('aria-valuenow', event.data);
-		$('.progress-bar-label').text(event.data+'%');
+		$('#long').remove();
+    if (prepended_already) { 
+		$('#input_run').prepend("<h2> Files uploaded, being processed now </h2>");
+    prepended_already = false;
+    }
+    
 
+    $('.progress-bar').css('width', event.data+'%').attr('aria-valuenow', event.data);
+		$('.progress-bar-label').text(event.data+'%');
+    
 		if(event.data == 100){
 			source.close()
       // alert("Execution done. Please find the results in your input directory.")
-      // httpGet("/dummy")
+      // httpGet("/final_results")
       toggle_download_results_button()
 		}
 	}
@@ -255,6 +272,14 @@
   } else {
     x.style.display = "none";
   }
+
+  var x = document.getElementById("show-results-div");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+
 }
 
 

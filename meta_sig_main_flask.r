@@ -13,11 +13,7 @@ library("devtools")
 FrobeniusNorm <- function(M, P, E) {
   sqrt(sum((M - P %*% E) ^ 2))
 }
-FrobeniusNorm_deconstructsigs <-
-  function(i,
-           input_matrices_list,
-           exposures_list ,
-           referenence_sigs) {
+FrobeniusNorm_deconstructsigs <- function(i, input_matrices_list, exposures_list , referenence_sigs) {
     M <- as.numeric(unlist(input_matrices_list[i]))
     P <- as.numeric(unlist(exposures_list[i]))
     E <- as.matrix(referenence_sigs)
@@ -27,7 +23,6 @@ FrobeniusNorm_deconstructsigs <-
 FrobeniusNorm_mutational_patterns <- function(M) {
   sqrt(sum((M) ^ 2))
 }
-
 whichSignaturesLocal = function(tumor.ref = NA,
                                 sample.id,
                                 signatures.ref = signatures.nature2013,
@@ -260,9 +255,9 @@ runLegacy = function(ref_genome = "hg19",
     errors_per_sample <- as.data.frame(errors_per_sample)
     row.names(errors_per_sample) <- row.names(sample_exposures$mean)
     dir.create("./sigfit_results")
-    write.csv(errors_per_sample,"./sigfit_results/sample_errors_legacy.csv")
-    write.csv(sample_exposures$mean, "./sigfit_results/sample_exposures_legacy.csv")
-    sigfit_legacy_df = as_tibble(read.csv("sigfit_results/sample_errors_legacy.csv"))%>% 
+    write.csv(errors_per_sample,"./sigfit_results/legacy_sample_errors.csv")
+    write.csv(sample_exposures$mean, "./sigfit_results/legacy_sample_exposures.csv")
+    sigfit_legacy_df = as_tibble(read.csv("sigfit_results/legacy_sample_errors.csv"))%>% 
       rename( sample = X,  error = errors_per_sample)%>%
       mutate(toolname = "sigfit")
     if (!exists("final_legacy_df")){
@@ -372,9 +367,9 @@ runSBS = function(ref_genome = "hg19",
     rmse_sbs <- sqrt(mean(errors_per_sample_sbs ^ 2))
     errors_per_sample_sbs <- as.data.frame(errors_per_sample_sbs)
     row.names(errors_per_sample_sbs) <- row.names(sample_exposures_sbs$mean)
-    write.csv(errors_per_sample_sbs,"./sigfit_results/sample_errors_sbs.csv")
-    write.csv(sample_exposures_sbs$mean, "./sigfit_results/sample_exposures_sbs.csv")
-    sigfit_sbs_df = as_tibble(read.csv("sigfit_results/sample_errors_sbs.csv"))%>% 
+    write.csv(errors_per_sample_sbs,"./sigfit_results/sbs_sample_errors.csv")
+    write.csv(sample_exposures_sbs$mean, "./sigfit_results/sbs_sample_exposures.csv")
+    sigfit_sbs_df = as_tibble(read.csv("sigfit_results/sbs_sample_errors.csv"))%>% 
       rename( sample = X,  error = errors_per_sample_sbs)%>%
       mutate(toolname = "sigfit")
     if (!exists("final_sbs_df")){
@@ -458,9 +453,9 @@ runIndel = function(ref_genome = "hg19",
     errors_per_sample <- sapply(seq(ncol(expo_mat)), function(i) FrobeniusNorm(indel_mutational_profile[i,], sig_matrix, expo_mat[, i]))
     errors_per_sample <- as.data.frame(errors_per_sample)
     row.names(errors_per_sample) <-row.names(indel_sample_exposures$mean)
-    write.csv(errors_per_sample,"./sigfit_results/sample_errors_indel.csv")
-    write.csv(indel_sample_exposures$mean,"./sigfit_results/sample_exposures_indel.csv")
-    sigfit_id_df = as_tibble(read.csv("sigfit_results/sample_errors_indel.csv"))%>% 
+    write.csv(errors_per_sample,"./sigfit_results/indel_sample_errors.csv")
+    write.csv(indel_sample_exposures$mean,"./sigfit_results/indel_sample_exposures.csv")
+    sigfit_id_df = as_tibble(read.csv("sigfit_results/indel_sample_errors.csv"))%>% 
       rename( sample = X,  error = errors_per_sample)%>%
       mutate(toolname = "sigfit")
     final_id_df = rbind(final_id_df, sigfit_id_df)
@@ -547,9 +542,9 @@ runDBS = function(ref_genome = "hg19",
     errors_per_sample_dbs <- sapply(seq(ncol(expo_mat)), function(i) FrobeniusNorm(dbs_mutational_profile[i,], sig_matrix, expo_mat[, i]))
     errors_per_sample_dbs <- as.data.frame(errors_per_sample_dbs)
     row.names(errors_per_sample_dbs) <- row.names(dbs_sample_exposures$mean)
-    write.csv(errors_per_sample_dbs,"./sigfit_results/sample_errors_dbs.csv")
-    write.csv(dbs_sample_exposures$mean,"./sigfit_results/sample_exposures_dbs.csv")
-    sigfit_dbs_df = as_tibble(read.csv("sigfit_results/sample_errors_dbs.csv"))%>% 
+    write.csv(errors_per_sample_dbs,"./sigfit_results/dbs_sample_errors.csv")
+    write.csv(dbs_sample_exposures$mean,"./sigfit_results/dbs_sample_exposures.csv")
+    sigfit_dbs_df = as_tibble(read.csv("sigfit_results/dbs_sample_errors.csv"))%>% 
       rename( sample = X,  error = errors_per_sample_dbs)%>%
       mutate(toolname = "sigfit")
   if (!exists("final_dbs_df")){
@@ -576,27 +571,27 @@ genome_build = args[2]
 
 data("cosmic_signatures_v2")
 if (genome_build == "GRCh37"){
-SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
-DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
+SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_SBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
+DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_DBS_GRCh37.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "GRCh38"){
-  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
-  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"/app/data/COSMIC_v3.2_DBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_SBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"../data/COSMIC_v3.2_DBS_GRCh38.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "mm9"){
-  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_mm9.txt") %>% column_to_rownames(., var = "Type")
-  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"/app/data/COSMIC_v3.2_DBS_mm9.txt") %>% column_to_rownames(., var = "Type")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_SBS_mm9.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"),"../data/COSMIC_v3.2_DBS_mm9.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "mm10"){
-  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_mm10.txt") %>% column_to_rownames(., var = "Type")
-  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_mm10.txt") %>% column_to_rownames(., var = "Type")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_SBS_mm10.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_DBS_mm10.txt") %>% column_to_rownames(., var = "Type")
 }
 if (genome_build == "rn6"){
-  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_SBS_rn6.txt") %>% column_to_rownames(., var = "Type")
-  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_DBS_rn6.txt") %>% column_to_rownames(., var = "Type")
+  SBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_SBS_rn6.txt") %>% column_to_rownames(., var = "Type")
+  DBS_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_DBS_rn6.txt") %>% column_to_rownames(., var = "Type")
 }
-ID_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "/app/data/COSMIC_v3.2_ID_GRCh37.txt") %>% column_to_rownames(., var = "Type")
-legacy_signatures <- readRDS("/app/data/legacy_signatures.RDs")$db
+ID_signatures <- read.delim(sep = "," , colClasses=c("Type"="character"), "../data/COSMIC_v3.2_ID_GRCh37.txt") %>% column_to_rownames(., var = "Type")
+legacy_signatures <- readRDS("../data/legacy_signatures.RDs")$db
 
 
 
@@ -642,7 +637,6 @@ input_sigflow = as.logical(args[4])
 input_sigfit = as.logical(args[5]) 
 input_deconstructSigs = as.logical(args[6]) 
 
-
 # input_mutationalPatterns = TRUE
 # input_sigflow = FALSE 
 # input_sigfit = FALSE 
@@ -678,4 +672,4 @@ ggboxplot(final_df, x = "toolname",
           add = "jitter",
           add.params = list(size = 0.1, jitter = 0.2)  
 )
-ggsave("rmse_box_plot.pdf")
+ggsave("rmse_box_plot.svg")
